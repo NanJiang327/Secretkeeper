@@ -129,6 +129,7 @@ public class PostPage extends AppCompatActivity {
                                       int arg3) {
         }
 
+
         @Override
         public void onTextChanged(CharSequence cs, int start, int before,
                                   int count) {
