@@ -39,7 +39,7 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View view) {
                 errorMsg();
                 if(checklength) {
-                    Intent intent = new Intent(LoginPage.this, HomePage.class);
+                    Intent intent = new Intent(LoginPage.this, PostPage.class);
                     startActivity(intent);
                 }
             }
