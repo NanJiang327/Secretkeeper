@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import android.widget.Toast;
  */
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
+    private LinearLayout l;
     private TextView child;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +29,13 @@ public class HomePage extends AppCompatActivity {
     private void init() {
         secrets = (ScrollView) findViewById(R.id.home_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
+        l = (LinearLayout) findViewById(R.id.home_l);
     }
 
     private void addSecret() {
-        child = new TextView(null);
+        child = new TextView(HomePage.this);
         child.setText("Go Go Go");
-        secrets.addView(child);
+        l.addView(child);
         //this function does not work
     }
 

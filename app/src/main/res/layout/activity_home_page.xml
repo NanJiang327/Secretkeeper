@@ -53,6 +53,7 @@
             android:scrollbars="vertical">
 
             <LinearLayout
+                android:id="@+id/home_l"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
