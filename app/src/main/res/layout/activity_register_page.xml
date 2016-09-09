@@ -243,7 +243,6 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/reg_btn_register"
-        android:enabled="false"
         android:textAllCaps="false"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

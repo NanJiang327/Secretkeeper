@@ -3,10 +3,10 @@ package com.example.lovej.secretkeeper;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -22,9 +22,11 @@ import java.util.regex.Pattern;
 public class LoginPage extends AppCompatActivity {
     private Button login,register;
     private EditText Username,Password;
-    private boolean checklength;
+    private boolean checktext,loginState;
     private CheckBox checkBox;
-
+    private DataBase db;
+    private int flags;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +34,22 @@ public class LoginPage extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login_page);
         initControll();
+
         login.getBackground().setAlpha(40);
-        //TODO connect to server..
-        login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
+                user = new User(Username.getText().toString(),Password.getText().toString());
                 errorMsg();
-                if(checklength) {
-                    Intent intent = new Intent(LoginPage.this, HomePage.class);
+                if(checktext){
+                login(user);
+                if(loginState){
+                    Intent intent = new Intent(LoginPage.this,HomePage.class);
+                    finish();
+                    Toast.makeText(LoginPage.this, "Login success", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
+            }
             }
         });
 
@@ -57,9 +65,6 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        Username.addTextChangedListener(new TextChange());
-        Password.addTextChangedListener(new TextChange());
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,13 +73,17 @@ public class LoginPage extends AppCompatActivity {
             }
         });
     }
+
     //initial
     protected void initControll() {
         login = (Button) findViewById(R.id.login_btn_login);
         register = (Button) findViewById(R.id.login_btn_register);
         Username = (EditText) findViewById(R.id.login_et_username);
         Password = (EditText) findViewById(R.id.login_et_password);
+        db = new DataBase(LoginPage.this);
+        Username.requestFocus();
     }
+
     //override the back button
     @Override
     public void onBackPressed(){
@@ -100,17 +109,18 @@ public class LoginPage extends AppCompatActivity {
         });
         dialog.show();
     }
+
     //used to see if the input fits the requirements.
-    protected void errorMsg(){
-        checklength = true;
-        boolean Sign1 =  Username.getText().length() < 20;
+    protected boolean errorMsg(){
+        checktext = true;
+        boolean Sign1 =  Username.getText().length() < 21;
         boolean Sign2 =  Username.getText().length() > 4;
         boolean Sign3 = Password.getText().length() > 7;
-        boolean Sign4 = Password.getText().length() < 20;
+        boolean Sign4 = Password.getText().length() < 21;
         AlertDialog.Builder dialog = new AlertDialog.Builder(LoginPage.this);
         if(!(Sign1 & Sign2)) {
             dialog.setTitle("Input error");
-            checklength = false;
+            checktext = false;
             dialog.setMessage("The length of username should be greater than 5 and less than 20");
             dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
@@ -121,7 +131,7 @@ public class LoginPage extends AppCompatActivity {
             dialog.show();
         }else if(compileExChar(Username.getText().toString())){
             dialog.setTitle("Input error");
-            checklength = false;
+            checktext = false;
             dialog.setMessage("Illegal username");
             dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
@@ -132,7 +142,7 @@ public class LoginPage extends AppCompatActivity {
             dialog.show();
         } else if(!(Sign3 & Sign4)) {
             dialog.setTitle("Input error");
-            checklength = false;
+            checktext = false;
             dialog.setMessage("The length of password should be greater than 8 and less then 20");
             dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
@@ -143,7 +153,7 @@ public class LoginPage extends AppCompatActivity {
             dialog.show();
         }else if(compileExChar(Password.getText().toString())){
             dialog.setTitle("Input error");
-            checklength = false;
+            checktext = false;
             dialog.setMessage("Illegal password ");
             dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
@@ -153,37 +163,70 @@ public class LoginPage extends AppCompatActivity {
             });
             dialog.show();
         }
+        return checktext;
     }
-    //method used to get the text changed event
-    class TextChange implements TextWatcher {
 
-        @Override
-        public void afterTextChanged(Editable arg0) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence cs, int start, int before,
-                                  int count) {
-            boolean Sign1 = Username.getText().length() > 0;
-            boolean Sign2 = Password.getText().length() > 0;
-            if (Sign1 & Sign2) {
-                    login.setBackgroundColor(0xFFFF9900);
-                    login.setEnabled(true);
-
+    public void login(User user){
+        String nameCheck,passwordCheck;
+        AlertDialog.Builder dialogForDb = new AlertDialog.Builder(LoginPage.this);
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+        Cursor cursor = dbRead.query("user",null,null,null,null,null,null);
+        while(cursor.moveToNext()){
+            nameCheck = cursor.getString(cursor.getColumnIndex("username"));
+            passwordCheck = cursor.getString(cursor.getColumnIndex("password"));
+            if(user.getUsername().equals(nameCheck)){
+                if(user.getPassword().equals(passwordCheck)){
+                    flags = 2;
+                }else{
+                    flags = 0;
+                }
+                break;
             }else{
-                login.setBackgroundColor(0xFFCCCCCC);
-                login.setEnabled(false);
+                flags = 1;
+                break;
             }
         }
-
+        switch (flags){
+            case 0:
+                //Title
+                dialogForDb.setTitle("Error Message");
+                //Message
+                dialogForDb.setMessage("Username and password doesn't matched, try again!");
+                //Button
+                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                loginState = false;
+                break;
+            case 1:
+                //Title
+                dialogForDb.setTitle("Error Message");
+                //Message
+                dialogForDb.setMessage("User " + Username.getText().toString() + " doesn't exist!");
+                //Button
+                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                Username.requestFocus();
+                loginState = false;
+                break;
+            case 2:
+                loginState = true;
+                break;
+            default:
+                break;
+        }
+        cursor.close();
+        db.close();
+        dialogForDb.show();
     }
+
     //method used to detect the illegal input
     private boolean compileExChar(String str){
         String limitEx="[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
