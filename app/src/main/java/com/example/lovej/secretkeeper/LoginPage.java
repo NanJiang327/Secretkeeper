@@ -5,8 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -41,17 +41,14 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View view){
                 user = new User(Username.getText().toString(),Password.getText().toString());
                 errorMsg();
-<<<<<<< HEAD
-                if(checklength) {
-                    Intent intent = new Intent(LoginPage.this, PostPage.class);
-=======
+
                 if(checktext){
                 login(user);
                 if(loginState){
                     Intent intent = new Intent(LoginPage.this,HomePage.class);
                     finish();
                     Toast.makeText(LoginPage.this, "Login success", Toast.LENGTH_SHORT).show();
->>>>>>> personal1
+
                     startActivity(intent);
                 }
             }
