@@ -1,4 +1,1 @@
-# Secretkeeper
-Hello world
-This is a developing app xD.
-
+This is my own place

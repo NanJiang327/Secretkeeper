@@ -1,12 +1,12 @@
 package com.example.lovej.secretkeeper;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,10 +23,16 @@ import java.util.regex.Pattern;
  */
 public class RegisterPage extends AppCompatActivity {
     RadioGroup RadioGroup_gender;
-    private EditText Username,Password,PasswordConfirm,Email;
+    private EditText Username, Password, PasswordConfirm, Email;
     private TextView MsgPasswordConfirm;
     private Button register;
-    private boolean radio,text,checklength,pwd;
+    private boolean radio, checklength, pwd, isExist;
+    private int flags;
+    private DataBase db;
+    private String gender;
+    private User user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,41 +44,12 @@ public class RegisterPage extends AppCompatActivity {
         RadioGroup_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.reg_btn_male){
+                if (checkedId == R.id.reg_btn_male) {
+                    gender = "male";
                     radio = true;
-                    if(text&pwd){
-                        register.setBackgroundColor(0xFFFF9900);
-                        register.setEnabled(true);
-                    }
-                }
-                else if(checkedId==R.id.reg_btn_female){
+                } else if (checkedId == R.id.reg_btn_female) {
+                    gender = "female";
                     radio = true;
-                    if(text&pwd){
-                        register.setBackgroundColor(0xFFFF9900);
-                        register.setEnabled(true);
-                    }
-                }
-            }
-        });
-
-        Username.addTextChangedListener(new TextChange());
-        Password.addTextChangedListener(new TextChange());
-        PasswordConfirm.addTextChangedListener(new TextChange());
-        Email.addTextChangedListener(new TextChange());
-
-
-        //TODO check email on database use setOnfocus if exist same as last one.
-
-        Username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                //TODO check username on database use setOnFocus if exist then set repeat username to true and use it on TextChanged method
-                if(hasFocus){
-
-                }else{
-                    if(Username.getText().length()>5 & Username.getText().length()<20){
-                        //Username.setError("Username should be at least 6 char and less than 20 char");
-                    }
                 }
             }
         });
@@ -81,13 +57,13 @@ public class RegisterPage extends AppCompatActivity {
         PasswordConfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
 
-                }else{
-                    if(!Password.getText().toString().equals(PasswordConfirm.getText().toString())){
+                } else {
+                    if (!Password.getText().toString().equals(PasswordConfirm.getText().toString())) {
                         MsgPasswordConfirm.setText("Password doesn't matched!");
                         pwd = false;
-                    }else{
+                    } else {
                         MsgPasswordConfirm.setText(" ");
                         pwd = true;
                     }
@@ -99,60 +75,48 @@ public class RegisterPage extends AppCompatActivity {
         Password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
 
-                }else{
-                    if(!Password.getText().toString().equals(PasswordConfirm.getText().toString()) & PasswordConfirm.getText().length()!=0){
+                } else {
+                    if (!Password.getText().toString().equals(PasswordConfirm.getText().toString()) & PasswordConfirm.getText().length() != 0) {
                         MsgPasswordConfirm.setText("Password doesn't matched!");
                         pwd = false;
-                    }else{
+                    } else {
                         MsgPasswordConfirm.setText(" ");
+                        pwd = true;
                     }
 
                 }
             }
         });
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checklength = true;
                 errorMsg();
-                if (checklength) {
+                user = new User(Username.getText().toString(),Password.getText().toString(),gender,Email.getText().toString());
+                if (checklength&pwd) {
                     AlertDialog.Builder dialog2 = new AlertDialog.Builder(RegisterPage.this);
-                    //确认信息的标题
+                    //set title
                     dialog2.setTitle("Confirm your username");
-                    //确认信息
+                    //set message
                     dialog2.setMessage("Use " + Username.getText().toString() + " as your username? Once you confirm you can't change it!");
-                    //右边按钮
+                    //button at right
                     dialog2.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                         }
                     });
-                    //左边按钮
+                    //button at left
                     dialog2.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            final ProgressDialog pD = new ProgressDialog(RegisterPage.this);
-                            pD.setTitle("Message!");
-                            pD.setMessage("Working on it xD");
-                            pD.show();
-                            Thread thread = new Thread() {
-                                public void run() {
-                                    try {
-                                        sleep(2000);
-                                        finish();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    pD.dismiss();
-                                }
-                            };
-                            thread.start();
-                            pD.setCancelable(true);
-
+                            addUser(user);
+                            if(!isExist) {
+                                Toast.makeText(RegisterPage.this, "Register success", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
                     });
                     dialog2.show();
@@ -161,29 +125,41 @@ public class RegisterPage extends AppCompatActivity {
         });
     }
 
-    protected void initControl(){
-        Username = (EditText)findViewById(R.id.reg_et_username);
-        Password = (EditText)findViewById(R.id.reg_et_password);
-        PasswordConfirm = (EditText)findViewById(R.id.reg_et_passwordCheck);
-        Email = (EditText)findViewById(R.id.reg_et_email);
-        MsgPasswordConfirm = (TextView)findViewById(R.id.reg_tv_notmatch);
-        RadioGroup_gender=(RadioGroup)findViewById(R.id.radioGroup1);
-        register = (Button)findViewById(R.id.reg_btn_register);
-
+    protected void initControl() {
+        Username = (EditText) findViewById(R.id.reg_et_username);
+        Password = (EditText) findViewById(R.id.reg_et_password);
+        PasswordConfirm = (EditText) findViewById(R.id.reg_et_passwordCheck);
+        Email = (EditText) findViewById(R.id.reg_et_email);
+        MsgPasswordConfirm = (TextView) findViewById(R.id.reg_tv_notmatch);
+        RadioGroup_gender = (RadioGroup) findViewById(R.id.radioGroup1);
+        register = (Button) findViewById(R.id.reg_btn_register);
+        db = new DataBase(RegisterPage.this);
+        Username.requestFocus();
     }
 
-    protected void errorMsg(){
-        boolean Sign1 =  Username.getText().length() < 20;
-        boolean Sign2 =  Username.getText().length() > 4;
+    protected void errorMsg() {
+        boolean Sign1 = Username.getText().length() < 20;
+        boolean Sign2 = Username.getText().length() > 4;
         boolean Sign3 = Password.getText().length() > 7;
         boolean Sign4 = Password.getText().length() < 20;
         boolean Sign5 = PasswordConfirm.getText().length() > 0;
         boolean Sign6 = Email.getText().length() > 7;
         boolean Sign7 = Email.getText().length() < 25;
         boolean Sign8 = (Email.getText().toString()).indexOf("@") > 0;
-        boolean Sign9 = (Email.getText().toString()).indexOf(".") >  0;
+        boolean Sign9 = (Email.getText().toString()).indexOf(".") > 0;
+        boolean Sign10 = false;
+        boolean Sign11 = false;
+        for(int i =0;i<Password.getText().length();i++){
+            char c = Password.getText().toString().charAt(i);
+            if(Character.isUpperCase(c)){
+                Sign10 = true;
+            }
+            if(Character.isLowerCase(c)){
+                Sign11 =  true;
+            }
+        }
         AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPage.this);
-        if(!(Sign1 & Sign2)) {
+        if (!(Sign1 & Sign2)) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("The length of username should be greater than 5 and less than 20");
@@ -194,7 +170,7 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        }else if(compileExChar(Username.getText().toString())){
+        } else if (compileExChar(Username.getText().toString())) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Illegal username");
@@ -205,7 +181,7 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        } else if(!(Sign3 & Sign4 & Sign5)) {
+        } else if (!(Sign3 & Sign4 & Sign5)) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("The length of password should be greater than 8 and less then 20");
@@ -216,7 +192,7 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        }else if(compileExChar(Password.getText().toString()) & compileExChar(PasswordConfirm.getText().toString())){
+        } else if (compileExChar(Password.getText().toString()) & compileExChar(PasswordConfirm.getText().toString())) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Illegal password ");
@@ -227,18 +203,18 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        }else if(!(Sign6 & Sign7)){
-                dialog.setTitle("Input error");
-                checklength = false;
-                dialog.setMessage("The length of email should be greater than 8 and less then 20");
-                dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
+        } else if (!(Sign6 & Sign7)) {
+            dialog.setTitle("Input error");
+            checklength = false;
+            dialog.setMessage("The length of email should be greater than 8 and less then 20");
+            dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
             dialog.show();
-        }else if(compileExChar(Email.getText().toString())) {
+        } else if (compileExChar(Email.getText().toString())) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Illegal Email input");
@@ -249,10 +225,44 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-            }else if(!(Sign8 & Sign9)){
+        } else if (!(Sign8 & Sign9)) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Email format is wrong!");
+            dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            dialog.show();
+        } else if(!(Sign10 & Sign11)){
+            dialog.setTitle("Input error");
+            checklength = false;
+            dialog.setMessage("Password should be at least contain one uppercase and lowercase.");
+            dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            dialog.show();
+
+        } else if(!radio){
+            dialog.setTitle("Input error");
+            checklength = false;
+            dialog.setMessage("Please select your gender.");
+            dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            dialog.show();
+        } else if(!pwd){
+            dialog.setTitle("Input error");
+            checklength = false;
+            dialog.setMessage("Please check your password.");
             dialog.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -264,53 +274,108 @@ public class RegisterPage extends AppCompatActivity {
 
     }
 
-    class TextChange implements TextWatcher {
-
-        @Override
-        public void afterTextChanged(Editable arg0) {
-
+    private boolean compileExChar(String str) {
+        String limitEx = "[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
+        Pattern pattern = Pattern.compile(limitEx);
+        Matcher m = pattern.matcher(str);
+        if (m.find()) {
+            return true;
+        } else {
+            return false;
         }
-
-        @Override
-        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence cs, int start, int before,
-                                  int count) {
-            boolean Sign1 =  Username.getText().length() > 0;
-            boolean Sign2 = Password.getText().length() > 0;
-            boolean Sign3 = PasswordConfirm.getText().length() > 0;
-            boolean Sign4 = Email.getText().length() > 0;
-
-
-            if (Sign1 & Sign2 & Sign3 & Sign4) {
-                text = true;
-                if(radio&pwd){
-                    register.setBackgroundColor(0xFFFF9900);
-                    register.setEnabled(true);
-                }
-            } else{
-                    register.setBackgroundColor(0xFFCCCCCC);
-                    text = false;
-                    register.setEnabled(false);
-                }
-            }
-
-        }
-         private boolean compileExChar(String str) {
-             String limitEx = "[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
-             Pattern pattern = Pattern.compile(limitEx);
-             Matcher m = pattern.matcher(str);
-             if (m.find()) {
-                 return true;
-             }else{
-                 return false;
-             }
-         }
     }
 
+    public void addUser(User user) {
+        flags = 0;
+        String nameCheck,emailCheck;
+        String userCheck = "select * from user";
+        AlertDialog.Builder dialogForDb = new AlertDialog.Builder(RegisterPage.this);
+        SQLiteDatabase dbWrite = db.getWritableDatabase();
+        Cursor cursor = dbWrite.rawQuery(userCheck,null);
+        while(cursor.moveToNext()){
+            nameCheck = cursor.getString(0);
+            emailCheck = cursor.getString(2);
+            if(user.getUsername().equals(nameCheck)){
+                flags = 1;
+                break;
+            }
+            if(user.getEmail().equals(emailCheck)){
+                flags = 2;
+                break;
+            }
+        }
+        switch (flags){
+            case 0:
+                ContentValues cv = new ContentValues();
+                cv.put("username", user.getUsername());
+                cv.put("password", user.getPassword());
+                cv.put("gender", user.getGender());
+                cv.put("email", user.getEmail());
+                dbWrite.insert("user", null, cv);
+                cv.clear();
+                isExist = false;
+                break;
+            case 1:
+                //Title
+                dialogForDb.setTitle("Error Message");
+                //Message
+                dialogForDb.setMessage("Use " + Username.getText().toString() + " already existed, try another one!");
+                //Button
+                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                Username.setText("");
+                Username.requestFocus();
+                isExist = true;
+                break;
+            case 2:
+                dialogForDb.setMessage("Email address " + Email.getText().toString() + " already existed, try another one!");
+                //Button
+                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                Email.setText("");
+                Email.requestFocus();
+                isExist = true;
+                break;
+            default:
+                break;
+           }
+            dbWrite.close();
+            dialogForDb.show();
+        }
+
+    @Override
+    public void onBackPressed(){
+        //Creat an alerdialog
+        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPage.this);
+        //Title
+        dialog.setTitle("Register");
+        //Message
+        dialog.setMessage("Cancel register?");
+        //right side button
+        dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        //left side button
+        dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        dialog.show();
+
+    }
+    }
 
 
