@@ -1,11 +1,13 @@
 package com.example.lovej.secretkeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
  */
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
+    private Button btn_newSec, btn_home, btn_me;
     private LinearLayout l;
     private TextView child;
     @Override
@@ -24,11 +27,21 @@ public class HomePage extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
         init();
+        btn_newSec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage.this, PostPage.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
         secrets = (ScrollView) findViewById(R.id.home_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
+        btn_newSec = (Button) findViewById(R.id.plus);
+        btn_home = (Button) findViewById(R.id.home);
+        btn_me = (Button) findViewById(R.id.me);
         l = (LinearLayout) findViewById(R.id.home_l);
     }
 
