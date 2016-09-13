@@ -34,6 +34,7 @@ public class HomePage extends AppCompatActivity {
 
     private void addSecret() {
         child = new TextView(HomePage.this);
+        child.setHeight(findViewById(R.id.textView).getHeight());
         child.setText("Go Go Go");
         l.addView(child);
         //this function does not work
