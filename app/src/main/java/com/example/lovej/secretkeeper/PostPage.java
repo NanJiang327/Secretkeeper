@@ -104,7 +104,7 @@ public class PostPage extends AppCompatActivity {
         btn_me = (Button)findViewById(R.id.return_me);
     }
 
-
+// This is used to get secret
 
     public String getSecret(){
         return secret.getText().toString();
