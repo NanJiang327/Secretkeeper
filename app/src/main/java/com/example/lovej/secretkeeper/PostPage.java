@@ -216,6 +216,7 @@ public class PostPage extends AppCompatActivity{
 
 
     public String getSecret(){
+
         return secret.getText().toString();
     }
 
