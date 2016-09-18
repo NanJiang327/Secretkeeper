@@ -21,16 +21,24 @@ public class HomePage extends AppCompatActivity {
     private Button btn_newSec, btn_home, btn_me;
     private LinearLayout l;
     private TextView child;
+    private String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
+
+        Bundle bundle = this.getIntent().getExtras();
+        name = bundle.getString("Name");
+
         init();
         btn_newSec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomePage.this, PostPage.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", name);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

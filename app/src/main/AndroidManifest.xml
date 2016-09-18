@@ -21,9 +21,9 @@
         <activity android:name=".HomePage">
 
         </activity>
-        <!--<activity android:name=".PostPage">-->
+        <activity android:name=".PostPage">
 
-        <!--</activity>-->
+        </activity>
     </application>
 
 </manifest>

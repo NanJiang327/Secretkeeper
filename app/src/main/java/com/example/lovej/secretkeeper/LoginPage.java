@@ -49,6 +49,9 @@ public class LoginPage extends AppCompatActivity {
                     finish();
                     Toast.makeText(LoginPage.this, "Login success", Toast.LENGTH_SHORT).show();
 
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Name", Username.getText().toString());
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
