@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
     private Button btn_newSec, btn_home, btn_me;
-    private LinearLayout l;
+    private LinearLayout homeSecret;
     private TextView child;
     private String name;
     @Override
@@ -42,6 +42,28 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(HomePage.this, HomePage.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("Name", name);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+            }
+        });
+
+        btn_me.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage.this, MySecret.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", name);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
@@ -50,14 +72,14 @@ public class HomePage extends AppCompatActivity {
         btn_newSec = (Button) findViewById(R.id.plus);
         btn_home = (Button) findViewById(R.id.home);
         btn_me = (Button) findViewById(R.id.me);
-        l = (LinearLayout) findViewById(R.id.home_l);
+        homeSecret = (LinearLayout) findViewById(R.id.home_scorllV);
     }
 
     private void addSecret() {
         child = new TextView(HomePage.this);
         child.setHeight(findViewById(R.id.textView).getHeight());
         child.setText("Go Go Go");
-        l.addView(child);
+        homeSecret.addView(child);
         //this function does not work
     }
 

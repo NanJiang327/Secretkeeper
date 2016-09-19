@@ -24,6 +24,9 @@
         <activity android:name=".PostPage">
 
         </activity>
+        <activity android:name=".MySecret">
+
+        </activity>
     </application>
 
 </manifest>
