@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,7 +19,8 @@ import android.widget.Toast;
  */
 public class MySecret extends AppCompatActivity {
     private ScrollView secrets;
-    private Button btn_newSec, btn_home, btn_me;
+    private Button btn_home, btn_me;
+    private ImageButton btn_newSec;
     private LinearLayout mySecrets;
     private TextView child;
     private String name;
@@ -27,7 +29,7 @@ public class MySecret extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_my_secret);
 
         Bundle bundle = this.getIntent().getExtras();
         name = bundle.getString("Name");
@@ -58,22 +60,18 @@ public class MySecret extends AppCompatActivity {
         btn_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(MySecret.this, PostPage.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("Name", name);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                Toast.makeText(MySecret.this, "You are already in the Me page.", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     private void init() {
-        secrets = (ScrollView) findViewById(R.id.home_mid);
+        secrets = (ScrollView) findViewById(R.id.me_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
-        btn_newSec = (Button) findViewById(R.id.plus);
-        btn_home = (Button) findViewById(R.id.home);
-        btn_me = (Button) findViewById(R.id.me);
+        btn_newSec = (ImageButton) findViewById(R.id.btn_me_plus);
+        btn_home = (Button) findViewById(R.id.btn_me_home);
+        btn_me = (Button) findViewById(R.id.btn_me_me);
         mySecrets = (LinearLayout) findViewById(R.id.my_scorllV);
     }
 

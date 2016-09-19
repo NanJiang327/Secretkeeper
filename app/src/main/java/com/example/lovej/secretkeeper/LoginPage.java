@@ -183,16 +183,16 @@ public class LoginPage extends AppCompatActivity {
                 if(user.getPassword().equals(passwordCheck)){
                     flags = 2;
                 }else{
-                    flags = 0;
+                    flags = 1;
                 }
                 break;
             }else{
-                flags = 1;
+                flags = 0;
                 break;
             }
         }
         switch (flags){
-            case 0:
+            case 1:
                 //Title
                 dialogForDb.setTitle("Error Message");
                 //Message
@@ -206,7 +206,7 @@ public class LoginPage extends AppCompatActivity {
                 });
                 loginState = false;
                 break;
-            case 1:
+            case 0:
                 //Title
                 dialogForDb.setTitle("Error Message");
                 //Message

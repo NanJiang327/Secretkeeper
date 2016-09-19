@@ -27,6 +27,9 @@
         <activity android:name=".MySecret">
 
         </activity>
+        <activity android:name=".EditPage">
+
+        </activity>
     </application>
 
 </manifest>
