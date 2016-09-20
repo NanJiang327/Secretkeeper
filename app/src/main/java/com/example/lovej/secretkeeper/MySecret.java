@@ -24,6 +24,7 @@ public class MySecret extends AppCompatActivity {
     private LinearLayout mySecrets;
     private TextView child;
     private String name;
+    private DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class MySecret extends AppCompatActivity {
         btn_home = (Button) findViewById(R.id.btn_me_home);
         btn_me = (Button) findViewById(R.id.btn_me_me);
         mySecrets = (LinearLayout) findViewById(R.id.my_scorllV);
+        db = new DataBase(MySecret.this);
     }
 
     private void addSecret() {
