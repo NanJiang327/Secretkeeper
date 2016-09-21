@@ -44,6 +44,7 @@ public class MySecret extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -55,6 +56,7 @@ public class MySecret extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
 

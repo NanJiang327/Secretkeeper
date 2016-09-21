@@ -81,11 +81,12 @@ public class PostPage extends AppCompatActivity{
                                     e.printStackTrace();
                                 }
                                 pD.dismiss();
-                                Intent intent = new Intent(PostPage.this, HomePage.class);
+                                Intent intent = new Intent(PostPage.this,HomePage.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putString("Name", name);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+                                finish();
                             }
                         };
                         thread.start();
@@ -104,16 +105,55 @@ public class PostPage extends AppCompatActivity{
         btn_home.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PostPage.this, HomePage.class);
-                startActivity(intent);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(PostPage.this);
+                dialog.setTitle("Post Page");
+                dialog.setMessage("Quit post page?");
+                dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(PostPage.this,HomePage.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Name", name);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
             }
+                    });
+                dialog.show();
+        }
         });
 
 
         btn_me.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
+                AlertDialog.Builder dialog = new AlertDialog.Builder(PostPage.this);
+                dialog.setTitle("Post Page");
+                dialog.setMessage("Quit post page?");
+                dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(PostPage.this,MySecret.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Name", name);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                dialog.show();
             }
 
         });

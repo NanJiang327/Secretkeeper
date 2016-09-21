@@ -45,6 +45,7 @@ public class HomePage extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -63,6 +64,7 @@ public class HomePage extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
     }

@@ -15,6 +15,7 @@ public class DataBase extends SQLiteOpenHelper {
         super(context,name,null,dbVersion);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table user(username varchar(20) primary key,password varchar(20),email varchar(30),gender varchar(5))";

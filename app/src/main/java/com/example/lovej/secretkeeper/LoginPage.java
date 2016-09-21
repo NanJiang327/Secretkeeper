@@ -16,6 +16,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -188,7 +191,6 @@ public class LoginPage extends AppCompatActivity {
                 break;
             }else{
                 flags = 0;
-                break;
             }
         }
         switch (flags){
@@ -233,7 +235,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     //method used to detect the illegal input
-    private boolean compileExChar(String str){
+    public boolean compileExChar(String str){
         String limitEx="[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
         Pattern pattern = Pattern.compile(limitEx);
         Matcher m = pattern.matcher(str);
@@ -241,5 +243,26 @@ public class LoginPage extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public Map checkDb_T(){
+        Map<String,String> mockDb = new HashMap<String,String>();
+        mockDb.put("j499521010","0");
+        mockDb.put("1sdsad","1");
+        return mockDb;
+    }
+
+    public String testDb(Map mockDB) throws Throwable{
+        for(Object obj: mockDB.keySet()){
+            if(((String)obj).equals("j499521010")){
+                return  mockDB.get(obj).toString();
+            }
+        }
+        return "";
+    }
+
+    public boolean isVaildUserName(String username){
+        return false;
+
     }
 }
