@@ -58,7 +58,7 @@ public class MySecret extends AppCompatActivity {
         btn_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MySecret.this, "You are already in the Me page.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MySecret.this, "You are already in the Me page..", Toast.LENGTH_SHORT).show();
             }
         });
 
