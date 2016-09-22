@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -27,6 +29,7 @@ public class HomePage extends AppCompatActivity {
     private Button btn_home, btn_me;
     private ImageButton btn_newSec;
     private LinearLayout homeSecret;
+    private EditText search;
     private TextView child;
     private String name;
     private DataBase db;
@@ -49,7 +52,6 @@ public class HomePage extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -68,7 +70,6 @@ public class HomePage extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -81,13 +82,16 @@ public class HomePage extends AppCompatActivity {
         btn_me = (Button) findViewById(R.id.me);
         homeSecret = (LinearLayout) findViewById(R.id.home_scorllV);
         db = new DataBase(HomePage.this);
+        search = (EditText) findViewById(R.id.searchText);
+
     }
 
     private void addSecret(int id, String content) {
         child = new TextView(HomePage.this);
-        child.setHeight(findViewById(R.id.textView).getHeight());
-        child.setText(content);
+        child.setHeight(findViewById(R.id.first_home_textview).getHeight());
+        child.setText("Secret Id: "+id+"  ||  Secret: "+content+"");
         child.setId(id);
+        child.setTextColor(Color.BLACK);
         homeSecret.addView(child);
         //this function does not work
     }
@@ -110,23 +114,24 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void loadLatestSecret(){
-        Toast.makeText(HomePage.this, "loadLatestSecreat", Toast.LENGTH_SHORT).show();
+        String content;
+        int id;
+        Toast.makeText(HomePage.this, "Loading secrets", Toast.LENGTH_SHORT).show();
         SQLiteDatabase dbRead = db.getReadableDatabase();
         String[] SecInfo = {"secretid","content"};
-        Cursor cursor = dbRead.query("SECRET",SecInfo,null,null,null,null,Integer.toString(1));
+        Cursor cursor = dbRead.query("SECRET",null,null,null,null,null,null);
         int total = cursor.getCount();
 
         if(total>0) {
             while (cursor.moveToNext()) {
-                int id = Integer.parseInt(cursor.getString(2));
-                String content = cursor.getString(3);
+                content = cursor.getString(cursor.getColumnIndex("content"));
+                id = cursor.getInt(cursor.getColumnIndex("secretid"));
                 if (id != lastid) {
                     addSecret(id, content);
                 } else {
                     Toast.makeText(HomePage.this, "No new secret", Toast.LENGTH_SHORT).show();
                     break;
                 }
-
             }
         }else{
             Toast.makeText(HomePage.this, "No new secret", Toast.LENGTH_SHORT).show();

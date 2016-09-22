@@ -51,11 +51,6 @@ public class MySecret extends AppCompatActivity {
         btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MySecret.this, HomePage.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("Name", name);
-                intent.putExtras(bundle);
-                startActivity(intent);
                 finish();
             }
         });

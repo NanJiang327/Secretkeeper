@@ -86,11 +86,11 @@ public class PostPage extends AppCompatActivity{
                                     e.printStackTrace();
                                 }
                                 pD.dismiss();
-                                Intent intent = new Intent(PostPage.this,HomePage.class);
+                                Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("Name", name);
                                 intent.putExtras(bundle);
-                                startActivity(intent);
+                                sendBroadcast(intent);
                                 finish();
                             }
                         };
@@ -122,11 +122,6 @@ public class PostPage extends AppCompatActivity{
                 dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(PostPage.this,HomePage.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("Name", name);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
                         finish();
             }
                     });

@@ -176,7 +176,6 @@ public class LoginPage extends AppCompatActivity {
 
     public void login(User user){
         String nameCheck,passwordCheck;
-        AlertDialog.Builder dialogForDb = new AlertDialog.Builder(LoginPage.this);
         SQLiteDatabase dbRead = db.getReadableDatabase();
         Cursor cursor = dbRead.query("user",null,null,null,null,null,null);
         while(cursor.moveToNext()){
@@ -195,31 +194,11 @@ public class LoginPage extends AppCompatActivity {
         }
         switch (flags){
             case 1:
-                //Title
-                dialogForDb.setTitle("Error Message");
-                //Message
-                dialogForDb.setMessage("Username and password doesn't matched, try again!");
-                //Button
-                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                Toast.makeText(LoginPage.this, "Username and password doesn't matched, try again!", Toast.LENGTH_SHORT).show();
                 loginState = false;
                 break;
             case 0:
-                //Title
-                dialogForDb.setTitle("Error Message");
-                //Message
-                dialogForDb.setMessage("User " + Username.getText().toString() + " doesn't exist!");
-                //Button
-                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                Toast.makeText(LoginPage.this, "User " + Username.getText().toString() + " doesn't exist!", Toast.LENGTH_SHORT).show();
                 Username.requestFocus();
                 loginState = false;
                 break;
@@ -231,7 +210,6 @@ public class LoginPage extends AppCompatActivity {
         }
         cursor.close();
         db.close();
-        dialogForDb.show();
     }
 
     //method used to detect the illegal input
