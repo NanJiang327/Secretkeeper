@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.text.TextWatcher;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -195,8 +200,17 @@ public class PostPage extends AppCompatActivity{
 */
 
 
-    public void openDB(){
+    //Refactoring saveSecret() for testing purpose
+    public String getDBInfo_T(Map mockDB, String userName, String password){
+        for(Object obj : mockDB.keySet()){
+            if(((String)obj) == userName) {
+                if(mockDB.get(obj).toString()==password){
+                    return userName+password;
+                }
 
+            }
+        }
+        return "";
     }
 
     public void saveSecret(String userName){
@@ -216,6 +230,35 @@ public class PostPage extends AppCompatActivity{
        // dbRead.execSQL(sqlInsert);
     }
 
+    //Refactoring saveSecret() for testing purpose
+    public Map saveSecret_T(){
+        //SQLiteDatabase dbWrite = db.getWritableDatabase();
+        //int number = new Random().nextInt(99999);
+        //number = checkSecretID(number);
+        //String content = secret.getText().toString();
+        // ContentValues values=new ContentValues();
+        //values.put("secretid",number);
+        //values.put("username",userName);
+        //values.put("content",content);
+        //System.out.println(number+userName+content);
+        //dbWrite.insert("SECRET",null,values);
+        //String sqlInsert = "insert into SECRET values ("+number+","+"'"+userName+"'"+","+"'"+content+"'"+")";
+        // dbRead.execSQL(sqlInsert);
+        Map<String,String> mockDB = new HashMap<String, String>();
+        mockDB.put("user01","This is test 01");
+        mockDB.put("user02","This is test 02");
+        mockDB.put("user03","This is test 03");
+        return mockDB;
+    }
+    //Coupled with saveSecret_T() for testing
+    public String getSecretFromDB_T(Map mockDB, String userName){
+        for(Object obj : mockDB.keySet()){
+            if(((String)obj) == userName)
+                return mockDB.get(obj).toString();
+        }
+        return "";
+    }
+
 
 
     public static int checkSecretID(int number){
@@ -232,6 +275,31 @@ public class PostPage extends AppCompatActivity{
             }else{
                 flage = false;
             }
+        }
+        return number;
+    }
+
+    //Refactor checkSecretID() for testing purpose
+    public int checkSecretID_T(int number){
+        int idCheck;
+        boolean flage = true;
+        //SQLiteDatabase dbRead = db.getReadableDatabase();
+        //Cursor cursor = dbRead.query("SECRET",null,null,null,null,null,null);
+        List<Integer> mockDB= new ArrayList<Integer>();
+        mockDB.add(1);
+        mockDB.add(2);
+        mockDB.add(3);
+        mockDB.add(4);
+
+        Iterator<Integer> it = mockDB.iterator();
+        while(it.hasNext()) {
+            //idCheck = cursor.getInt(cursor.getColumnIndex("secretid"));
+            while(flage)
+                if (number == (Integer)it.next()) {
+                    number = new Random().nextInt(99999);
+                }else{
+                    flage = false;
+                }
         }
         return number;
     }

@@ -6,13 +6,13 @@
 
     <RelativeLayout
         android:id="@+id/home_above"
-        android:layout_above="@+id/my_bot"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
         <LinearLayout
-            android:id="@+id/my_top"
+            android:id="@+id/home_top"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -28,26 +28,26 @@
             <EditText
                 android:id="@+id/searchText"
                 android:layout_width="250dp"
-            android:layout_height="50dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-            android:ems="10"
+                android:ems="10"
                 android:hint="Enter secret ID"
                 android:inputType="number">
                 <!--android:background="@drawable/searchbg"-->
             </EditText>
 
-        <ImageButton
-            android:id="@+id/searchButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/searchicon" />
+            <ImageButton
+                android:id="@+id/searchButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/searchicon" />
 
 
         </LinearLayout>
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/home_mid"
-            android:layout_below="@+id/my_top"
+            android:layout_below="@+id/home_top"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical">
@@ -59,30 +59,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/first_home_textview"
                     android:layout_width="fill_parent"
                     android:layout_height="180dp"
-                    android:text="default_message" />
+                    android:text="No secret yet, you can publish the first secret!!!" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
 
             </LinearLayout>
         </ScrollView>

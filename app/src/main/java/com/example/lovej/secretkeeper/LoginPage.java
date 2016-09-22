@@ -245,24 +245,63 @@ public class LoginPage extends AppCompatActivity {
         return false;
     }
 
+    //Virtual database
     public Map checkDb_T(){
         Map<String,String> mockDb = new HashMap<String,String>();
         mockDb.put("j499521010","0");
         mockDb.put("1sdsad","1");
         return mockDb;
     }
-
-    public String testDb(Map mockDB) throws Throwable{
-        for(Object obj: mockDB.keySet()){
+    //to check if use in the right position of the database.
+    public String testDb(Map virtualDB) throws Throwable{
+        for(Object obj: virtualDB.keySet()){
             if(((String)obj).equals("j499521010")){
-                return  mockDB.get(obj).toString();
+                return  virtualDB.get(obj).toString();
             }
         }
         return "";
     }
-
+    //to check if the username's length fits the requirements.
     public boolean isVaildUserName(String username){
-        return false;
+        if(username.length()>4&& username.length() <21){
+            return true;
+        }else{
+            return false;
+        }
 
+    }
+    //to check if the password fits the requirements.
+    public String checkPassword(String password){
+        boolean sign1 = false,sign2 = false;
+        for(int i =0;i<password.length();i++){
+            char c = password.toString().charAt(i);
+            if(Character.isUpperCase(c)){
+                sign1 = true;
+            }
+            if(Character.isLowerCase(c)){
+                sign2 =  true;
+            }
+        }
+        if(!sign1&&sign2){
+            password = "the password should be contain at least one lowercase and one uppercase";
+            return password;
+        }else{
+            return password;
+        }
+    }
+    //to check if username exist and username match with password
+    public String checkMatch(String username, String password){
+        String loginSatus;
+        String usernameInDb = "j499521010", passwordInDb = "123.comJN";
+        if(username.equals(usernameInDb)){
+            if(password.equals(passwordInDb)){
+                loginSatus = "login success!";
+            }else{
+                loginSatus = "username does't matched with password.";
+            }
+        }else{
+            loginSatus = "username doesn't exist.";
+        }
+        return loginSatus;
     }
 }

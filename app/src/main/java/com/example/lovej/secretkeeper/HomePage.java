@@ -3,6 +3,8 @@ package com.example.lovej.secretkeeper;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,8 @@ public class HomePage extends AppCompatActivity {
     private LinearLayout homeSecret;
     private TextView child;
     private String name;
+    private DataBase db;
+    private int lastid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,14 +80,58 @@ public class HomePage extends AppCompatActivity {
         btn_home = (Button) findViewById(R.id.home);
         btn_me = (Button) findViewById(R.id.me);
         homeSecret = (LinearLayout) findViewById(R.id.home_scorllV);
+        db = new DataBase(HomePage.this);
     }
 
-    private void addSecret() {
+    private void addSecret(int id, String content) {
         child = new TextView(HomePage.this);
         child.setHeight(findViewById(R.id.textView).getHeight());
-        child.setText("Go Go Go");
+        child.setText(content);
+        child.setId(id);
         homeSecret.addView(child);
         //this function does not work
+    }
+
+    private void loadLatestTenSecreat(){
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+        String[] SecInfo = {"secretid","content"};
+        Cursor cursor = dbRead.query("SECRET",SecInfo,null,null,null,"secretid DESC",Integer.toString(10));
+        int total = cursor.getCount();
+        if(total>0) {
+            while (cursor.moveToNext()) {
+                int id = Integer.parseInt(cursor.getString(2));
+                String content = cursor.getString(3);
+                lastid=id;
+                addSecret(id, content);
+            }
+        }else{
+            addSecret(0,"No Secret yet, you can publish the first secret!!!");
+        }
+    }
+
+    private void loadLatestSecret(){
+        Toast.makeText(HomePage.this, "loadLatestSecreat", Toast.LENGTH_SHORT).show();
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+        String[] SecInfo = {"secretid","content"};
+        Cursor cursor = dbRead.query("SECRET",SecInfo,null,null,null,null,Integer.toString(1));
+        int total = cursor.getCount();
+
+        if(total>0) {
+            while (cursor.moveToNext()) {
+                int id = Integer.parseInt(cursor.getString(2));
+                String content = cursor.getString(3);
+                if (id != lastid) {
+                    addSecret(id, content);
+                } else {
+                    Toast.makeText(HomePage.this, "No new secret", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+            }
+        }else{
+            Toast.makeText(HomePage.this, "No new secret", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void onBackPressed(){
@@ -121,12 +169,12 @@ public class HomePage extends AppCompatActivity {
                     int scrollY = view.getScrollY();
                     int height = view.getHeight();
                     int scrollViewMeasuredHeight = secrets.getChildAt(0).getMeasuredHeight();
-                    if (scrollY == 0) {
-                        Toast.makeText(HomePage.this, "Top", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (scrollY== 0) {
+//                        Toast.makeText(HomePage.this, "Top", Toast.LENGTH_SHORT).show();
+//                    }
                     if ((scrollY + height) == scrollViewMeasuredHeight) {
-                        Toast.makeText(HomePage.this, "bot", Toast.LENGTH_SHORT).show();
-                        addSecret();
+                        //Toast.makeText(HomePage.this, "bot", Toast.LENGTH_SHORT).show();
+                        loadLatestSecret();
                     }
                     break;
 
