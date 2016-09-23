@@ -1,9 +1,11 @@
-package com.exmple.lovej.secretkeeper.test;
+package com.example.lovej.secretkeeper.test;
 
 /**
  * Created by lovej on 2016/9/22 0022.
  */
+
 import android.test.AndroidTestCase;
+
 import com.example.lovej.secretkeeper.LoginPage;
 
 public class LoginPageTest extends AndroidTestCase {

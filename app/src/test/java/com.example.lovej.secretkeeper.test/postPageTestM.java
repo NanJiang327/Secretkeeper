@@ -1,15 +1,14 @@
-package com.exmple.lovej.secretkeeper.test;
+package com.example.lovej.secretkeeper.test;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+
 import com.example.lovej.secretkeeper.DataBase;
 import com.example.lovej.secretkeeper.PostPage;
 
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by SpencerLee on 13/09/2016.

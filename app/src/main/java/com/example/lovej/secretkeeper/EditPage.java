@@ -69,7 +69,7 @@ public class EditPage extends AppCompatActivity {
                 dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(EditPage.this, MySecret.class);
+                        Intent intent = new Intent(EditPage.this, MePage.class);
                         startActivity(intent);
                     }
                 });

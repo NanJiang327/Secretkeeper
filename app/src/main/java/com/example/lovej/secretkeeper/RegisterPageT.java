@@ -3,8 +3,6 @@ package com.example.lovej.secretkeeper;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,9 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by lovej/FD-GHOST on 2016/8/21 0021.
+ * Created by FD-GHOST on 2016/9/23.
  */
-public class RegisterPage extends AppCompatActivity {
+public class RegisterPageT extends AppCompatActivity {
     RadioGroup RadioGroup_gender;
     private EditText Username, Password, PasswordConfirm, Email;
     private TextView MsgPasswordConfirm;
@@ -31,7 +29,8 @@ public class RegisterPage extends AppCompatActivity {
     private DataBase db;
     private String gender;
     private User user;
-
+    /*For the test purpose, this file will use String array to replace the database*/
+    private User[] users;
 
 
     @Override
@@ -94,9 +93,9 @@ public class RegisterPage extends AppCompatActivity {
             public void onClick(View view) {
                 checklength = true;
                 errorMsg();
-                user = new User(Username.getText().toString(),Password.getText().toString(),gender,Email.getText().toString());
-                if (checklength&pwd) {
-                    AlertDialog.Builder dialog2 = new AlertDialog.Builder(RegisterPage.this);
+                user = new User(Username.getText().toString(), Password.getText().toString(), gender, Email.getText().toString());
+                if (checklength & pwd) {
+                    AlertDialog.Builder dialog2 = new AlertDialog.Builder(RegisterPageT.this);
                     //set title
                     dialog2.setTitle("Confirm your username");
                     //set message
@@ -113,8 +112,8 @@ public class RegisterPage extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             addUser(user);
-                            if(!isExist) {
-                                Toast.makeText(RegisterPage.this, "Register success", Toast.LENGTH_SHORT).show();
+                            if (!isExist) {
+                                Toast.makeText(RegisterPageT.this, "Register success", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }
@@ -133,7 +132,7 @@ public class RegisterPage extends AppCompatActivity {
         MsgPasswordConfirm = (TextView) findViewById(R.id.reg_tv_notmatch);
         RadioGroup_gender = (RadioGroup) findViewById(R.id.radioGroup1);
         register = (Button) findViewById(R.id.reg_btn_register);
-        db = new DataBase(RegisterPage.this);
+        db = new DataBase(RegisterPageT.this);
         Username.requestFocus();
     }
 
@@ -149,16 +148,16 @@ public class RegisterPage extends AppCompatActivity {
         boolean Sign9 = (Email.getText().toString()).indexOf(".") > 0;
         boolean Sign10 = false;
         boolean Sign11 = false;
-        for(int i =0;i<Password.getText().length();i++){
+        for (int i = 0; i < Password.getText().length(); i++) {
             char c = Password.getText().toString().charAt(i);
-            if(Character.isUpperCase(c)){
+            if (Character.isUpperCase(c)) {
                 Sign10 = true;
             }
-            if(Character.isLowerCase(c)){
-                Sign11 =  true;
+            if (Character.isLowerCase(c)) {
+                Sign11 = true;
             }
         }
-        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPage.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPageT.this);
         if (!(Sign1 & Sign2)) {
             dialog.setTitle("Input error");
             checklength = false;
@@ -236,7 +235,7 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        } else if(!(Sign10 & Sign11)){
+        } else if (!(Sign10 & Sign11)) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Password should be at least contain one uppercase and lowercase.");
@@ -248,7 +247,7 @@ public class RegisterPage extends AppCompatActivity {
             });
             dialog.show();
 
-        } else if(!radio){
+        } else if (!radio) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Please select your gender.");
@@ -259,7 +258,7 @@ public class RegisterPage extends AppCompatActivity {
                 }
             });
             dialog.show();
-        } else if(!pwd){
+        } else if (!pwd) {
             dialog.setTitle("Input error");
             checklength = false;
             dialog.setMessage("Please check your password.");
@@ -285,76 +284,92 @@ public class RegisterPage extends AppCompatActivity {
         }
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
+        User userT;
+        users = new User[3];
+        userT = new User("RegisterPageA", "RegisterPageA123", "Male", "Testa@Test.com");
+        users[0] = userT;
+        userT = new User("RegisterPageB", "RegisterPageA123", "Male", "Testb@Test.com");
+        users[1] = userT;
+        userT = new User("RegisterPageC", "RegisterPageA123", "Male", "Testc@Test.com");
+        users[2] = userT;
+
         flags = 0;
-        String nameCheck,emailCheck;
+        String nameCheck, emailCheck;
         String userCheck = "select * from user";
-        AlertDialog.Builder dialogForDb = new AlertDialog.Builder(RegisterPage.this);
-        SQLiteDatabase dbWrite = db.getWritableDatabase();
-        Cursor cursor = dbWrite.rawQuery(userCheck,null);
-        while(cursor.moveToNext()){
-            nameCheck = cursor.getString(0);
-            emailCheck = cursor.getString(2);
-            if(user.getUsername().equals(nameCheck)){
+//        AlertDialog.Builder dialogForDb = new AlertDialog.Builder(RegisterPageT.this);
+//        SQLiteDatabase dbWrite = db.getWritableDatabase();
+//        Cursor cursor = dbWrite.rawQuery(userCheck, null);
+
+        for (int i = 0; i < 3; i++) {
+            nameCheck = users[i].getUsername();
+            emailCheck = users[i].getEmail();
+            if (user.getUsername().equals(nameCheck)) {
                 flags = 1;
                 break;
             }
-            if(user.getEmail().equals(emailCheck)){
+            if (user.getEmail().equals(emailCheck)) {
                 flags = 2;
                 break;
             }
         }
-        switch (flags){
+        switch (flags) {
+
             case 0:
                 ContentValues cv = new ContentValues();
                 cv.put("username", user.getUsername());
                 cv.put("password", user.getPassword());
                 cv.put("gender", user.getGender());
                 cv.put("email", user.getEmail());
-                dbWrite.insert("user", null, cv);
+//                dbWrite.insert("user", null, cv);
                 cv.clear();
                 isExist = false;
-                break;
+                return isExist;
+            //  break;
             case 1:
                 //Title
-                dialogForDb.setTitle("Error Message");
+//                dialogForDb.setTitle("Error Message");
                 //Message
-                dialogForDb.setMessage("Use " + Username.getText().toString() + " already existed, try another one!");
+//                dialogForDb.setMessage("Use " + Username.getText().toString() + " already existed, try another one!");
                 //Button
-                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                Username.setText("");
-                Username.requestFocus();
+//                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                }
+//            });
+//                Username.setText("");
+//                Username.requestFocus();
                 isExist = true;
-                break;
+                return isExist;
+            //   break;
             case 2:
-                dialogForDb.setMessage("Email address " + Email.getText().toString() + " already existed, try another one!");
-                //Button
-                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                Email.setText("");
-                Email.requestFocus();
+//                dialogForDb.setMessage("Email address " + Email.getText().toString() + " already existed, try another one!");
+//                //Button
+//                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                Email.setText("");
+//                Email.requestFocus();
                 isExist = true;
-                break;
+                return isExist;
+            // break;
             default:
                 break;
-           }
-            dbWrite.close();
-            dialogForDb.show();
         }
+//        dbWrite.close();
+//        dialogForDb.show();
+        //Foe the test purpose
+        return false;
+    }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         //Creat an alerdialog
-        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPage.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterPageT.this);
         //Title
         dialog.setTitle("Register");
         //Message
@@ -376,6 +391,6 @@ public class RegisterPage extends AppCompatActivity {
         dialog.show();
 
     }
-    }
+}
 
 

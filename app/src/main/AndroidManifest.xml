@@ -24,7 +24,7 @@
         <activity android:name=".PostPage">
 
         </activity>
-        <activity android:name=".MySecret">
+        <activity android:name=".MePage">
 
         </activity>
         <activity android:name=".EditPage">

@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,7 +64,7 @@ public class HomePage extends AppCompatActivity {
         btn_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomePage.this, MySecret.class);
+                Intent intent = new Intent(HomePage.this, MePage.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);

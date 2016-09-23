@@ -17,7 +17,7 @@ import android.widget.Toast;
 /**
  * Created by FD-GHOST on 2016/9/18 1450.
  */
-public class MySecret extends AppCompatActivity {
+public class MePage extends AppCompatActivity {
     private ScrollView secrets;
     private Button btn_home, btn_me;
     private ImageButton btn_newSec;
@@ -30,7 +30,7 @@ public class MySecret extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_my_secret);
+        setContentView(R.layout.activity_me_page);
 
         Bundle bundle = this.getIntent().getExtras();
         name = bundle.getString("Name");
@@ -39,7 +39,7 @@ public class MySecret extends AppCompatActivity {
         btn_newSec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MySecret.this, PostPage.class);
+                Intent intent = new Intent(MePage.this, PostPage.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
@@ -58,7 +58,7 @@ public class MySecret extends AppCompatActivity {
         btn_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MySecret.this, "You are already in the Me page..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MePage.this, "You are already in the Me page..", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -71,11 +71,11 @@ public class MySecret extends AppCompatActivity {
         btn_home = (Button) findViewById(R.id.btn_me_home);
         btn_me = (Button) findViewById(R.id.btn_me_me);
         mySecrets = (LinearLayout) findViewById(R.id.my_scorllV);
-        db = new DataBase(MySecret.this);
+        db = new DataBase(MePage.this);
     }
 
     private void addSecret() {
-        child = new TextView(MySecret.this);
+        child = new TextView(MePage.this);
         child.setHeight(findViewById(R.id.textView).getHeight());
         child.setText("Go Go Go");
         mySecrets.addView(child);
@@ -94,10 +94,10 @@ public class MySecret extends AppCompatActivity {
                     int height = view.getHeight();
                     int scrollViewMeasuredHeight = secrets.getChildAt(0).getMeasuredHeight();
                     if (scrollY == 0) {
-                        Toast.makeText(MySecret.this, "Top", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MePage.this, "Top", Toast.LENGTH_SHORT).show();
                     }
                     if ((scrollY + height) == scrollViewMeasuredHeight) {
-                        Toast.makeText(MySecret.this, "bot", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MePage.this, "bot", Toast.LENGTH_SHORT).show();
                         addSecret();
                     }
                     break;
