@@ -217,12 +217,8 @@ public class PostPage extends AppCompatActivity{
         values.put("secretid",number);
         values.put("username",userName);
         values.put("content",content);
-        System.out.println(number+userName+content);
         dbWrite.insert("SECRET",null,values);
 
-
-        //String sqlInsert = "insert into SECRET values ("+number+","+"'"+userName+"'"+","+"'"+content+"'"+")";
-       // dbRead.execSQL(sqlInsert);
     }
 
     //Refactoring saveSecret() for testing purpose

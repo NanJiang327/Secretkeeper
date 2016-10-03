@@ -30,6 +30,9 @@
         <activity android:name=".EditPage">
 
         </activity>
+        <activity android:name=".ArcadeGameActivity">
+
+        </activity>
     </application>
 
 </manifest>

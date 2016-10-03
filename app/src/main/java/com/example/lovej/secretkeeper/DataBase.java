@@ -20,7 +20,9 @@ public class DataBase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table user(username varchar(20) primary key,password varchar(20),email varchar(30),gender varchar(5))";
         String setUpDBForSecret = "create table SECRET(secretid number(5) primary key, username varchar(20), content varchar(300))";
+        String setUpDBForCoin = "create table COIN(username varchar(20), coin number(5))";
         sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.execSQL(setUpDBForCoin);
         sqLiteDatabase.execSQL(setUpDBForSecret);
 
     }

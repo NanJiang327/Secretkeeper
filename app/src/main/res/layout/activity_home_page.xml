@@ -55,8 +55,7 @@
         android:weightSum="1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/my_bot">
+        android:layout_alignParentStart="true">
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/home_mid"
@@ -99,29 +98,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-            <ImageButton
-                android:id="@+id/searchButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/searchicon"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <EditText
-                android:id="@+id/searchText"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Enter secret ID"
-                android:inputType="number"
-                android:layout_alignBaseline="@+id/home_Search"
-                android:layout_alignBottom="@+id/home_Search"
-                android:layout_toLeftOf="@+id/searchButton">
-                <!--android:background="@drawable/searchbg"-->
-            </EditText>
-
             <TextView
                 android:id="@+id/home_Search"
                 android:layout_width="70dp"
@@ -133,8 +109,42 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <EditText
+                android:id="@+id/searchText"
+                android:layout_width="187dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter secret ID"
+                android:inputType="number"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/home_Search">
+                <!--android:background="@drawable/searchbg"-->
+            </EditText>
+
+            <Button
+                android:text="Arcade game"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/home_btn_Arcade"
+                android:textAllCaps="false"
+                android:background="@drawable/arcade"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageButton
+                android:id="@+id/searchButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/searchicon"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/home_btn_Arcade"
+                android:layout_toStartOf="@+id/home_btn_Arcade" />
+
 
         </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

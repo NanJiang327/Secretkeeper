@@ -57,6 +57,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display password"
+        android:id="@+id/login_checkbox_showPwd"
+        android:layout_below="@+id/login_et_password"
+        android:layout_alignLeft="@+id/login_et_password"
+        android:layout_alignStart="@+id/login_et_password"
+        android:checked="false" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,16 +77,6 @@
         android:textColor="#C4C4C4"
         android:layout_below="@+id/login_btn_login"
         android:layout_centerHorizontal="true" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Display password"
-        android:id="@+id/login_checkbox_showPwd"
-        android:layout_below="@+id/login_et_password"
-        android:layout_alignLeft="@+id/login_et_password"
-        android:layout_alignStart="@+id/login_et_password"
-        android:checked="false" />
 
 
 </RelativeLayout>
