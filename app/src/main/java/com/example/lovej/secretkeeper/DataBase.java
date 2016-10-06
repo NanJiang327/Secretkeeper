@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by lovej on 2016/9/1 0001.
  */
 public class DataBase extends SQLiteOpenHelper {
-    static String name = "user2.db";
-    static int dbVersion = 2;
+    private static String name = "user2.db";
+    private static int dbVersion = 2;
 
     public DataBase(Context context){
         super(context,name,null,dbVersion);
@@ -24,6 +24,31 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.execSQL(setUpDBForCoin);
         sqLiteDatabase.execSQL(setUpDBForSecret);
+        ///Secrets for test///
+//        String secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (1,'ML','Secret N1');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (2'ML','Secret N2');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (3,'ML','Secret N3');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (4,'ML','Secret N4');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (5,'ML','Secret N5');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (6,'ML','Secret N6');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (7,'ML','Secret N7');";
+//        sqLiteDatabase.execSQL(secreststest);
+//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
+//                "        VALUES (8,'ML','Secret N8');";
+//        sqLiteDatabase.execSQL(secreststest);
 
     }
 
