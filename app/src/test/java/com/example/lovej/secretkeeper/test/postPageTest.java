@@ -1,4 +1,4 @@
-package com.exmple.lovej.secretkeeper.test;
+package com.example.lovej.secretkeeper.test;
 import android.test.suitebuilder.TestSuiteBuilder;
 import junit.framework.Test;
 import junit.framework.TestSuite;

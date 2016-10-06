@@ -1,4 +1,4 @@
-package com.exmple.lovej.secretkeeper.test;
+package com.example.lovej.secretkeeper.test;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;

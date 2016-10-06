@@ -1,4 +1,4 @@
-package com.exmple.lovej.secretkeeper.test;
+package com.example.lovej.secretkeeper.test;
 
 /**
  * Created by lovej on 2016/9/22 0022.

@@ -1,4 +1,4 @@
-package com.example.lovej.secretkeeper;
+package com.example.lovej.secretkeeper.test;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -12,6 +12,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.lovej.secretkeeper.DataBase;
+import com.example.lovej.secretkeeper.R;
+import com.example.lovej.secretkeeper.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

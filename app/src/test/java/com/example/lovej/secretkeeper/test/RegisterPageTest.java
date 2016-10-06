@@ -1,6 +1,5 @@
 package com.example.lovej.secretkeeper.test;
 
-import com.example.lovej.secretkeeper.RegisterPageT;
 import com.example.lovej.secretkeeper.User;
 
 import org.junit.Test;
