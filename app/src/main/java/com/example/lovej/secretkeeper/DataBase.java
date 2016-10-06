@@ -25,8 +25,6 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.execSQL(setUpDBForSecret);
         ///Secrets for test///
-//        String secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                    "        VALUES (1,'ML','Secret N1');";
         String secreststest = " INSERT into SECRET(secretid, username, content)\n" +
                 "        VALUES (1,'ML','Secret N1');";
         sqLiteDatabase.execSQL(secreststest);

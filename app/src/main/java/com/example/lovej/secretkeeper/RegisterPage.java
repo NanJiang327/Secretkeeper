@@ -274,7 +274,7 @@ public class RegisterPage extends AppCompatActivity {
 
     }
 
-    public boolean compileExChar(String str) {
+    private boolean compileExChar(String str) {
         String limitEx = "[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
         Pattern pattern = Pattern.compile(limitEx);
         Matcher m = pattern.matcher(str);
