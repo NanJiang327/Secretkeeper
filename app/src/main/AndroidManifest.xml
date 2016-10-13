@@ -33,6 +33,9 @@
         <activity android:name=".ArcadeGameActivity">
 
         </activity>
+        <activity android:name=".SecretDetail">
+
+        </activity>
     </application>
 
 </manifest>

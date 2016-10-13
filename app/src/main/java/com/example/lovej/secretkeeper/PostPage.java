@@ -11,12 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.Button;
-import android.widget.Toast;
-import android.text.TextWatcher;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,7 +144,7 @@ public class PostPage extends AppCompatActivity{
                 dialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(PostPage.this,MySecret.class);
+                        Intent intent = new Intent(PostPage.this, MePage.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("Name", name);
                         intent.putExtras(bundle);

@@ -44,24 +44,26 @@ public class MePage extends AppCompatActivity {
                 bundle.putString("Name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
-            }
-        });
-
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
             }
         });
 
         btn_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MePage.this, "You are already in the Me page..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MePage.this, "You are already in the me page.", Toast.LENGTH_SHORT).show();
             }
         });
 
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MePage.this, HomePage.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", name);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
