@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +30,13 @@ import java.util.Random;
  * Created by Tao Li on 13/09/2016.
  */
 public class PostPage extends AppCompatActivity{
+    RadioGroup RadioGroup_bg;
     private EditText secret;
     private Button btn_post, btn_home, btn_me;
     private static DataBase db;
+    private boolean clicked = false;
     private String name;
+    private String background;
 
 
     @Override
@@ -50,57 +54,92 @@ public class PostPage extends AppCompatActivity{
 
         initalizeBtn();
         initalizeDB();
+
+        RadioGroup_bg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.post_radio_btn_dog) {
+                    background = "dog";
+                    clicked = true;
+                } else if (checkedId == R.id.post_radio_btn_nature) {
+                    background = "nature";
+                    clicked = true;
+                }else if (checkedId == R.id.post_radio_btn_starwar) {
+                    background = "star";
+                    clicked = true;
+                }else if (checkedId == R.id.post_radio_btn_wave) {
+                    background = "wave";
+                    clicked = true;
+                }else if (checkedId == R.id.post_radio_btn_brries) {
+                    background = "Barries";
+                    clicked = true;
+                }
+
+            }
+        });
+
         btn_post.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                enterSecret(getSecret());
-                //Confirm Info
-                AlertDialog.Builder dialog = new AlertDialog.Builder(PostPage.this);
-                dialog.setTitle("Confirm your secret");
-                dialog.setMessage(secret.getText().toString()+"*Username:"+name);
-                dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                dialog.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final ProgressDialog pD = new ProgressDialog(PostPage.this);
-                        pD.setTitle("Please wait");
-                        pD.setMessage("Posting...");
-                        pD.show();
+                if(clicked) {
+                    enterSecret(getSecret());
+                    //Confirm Info
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(PostPage.this);
+                    dialog.setTitle("Confirm your secret");
+                    dialog.setMessage(secret.getText().toString() + "*Username:" + name);
+                    dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    dialog.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final ProgressDialog pD = new ProgressDialog(PostPage.this);
+                            pD.setTitle("Please wait");
+                            pD.setMessage("Posting...");
+                            pD.show();
 
 
-                        saveSecret(name);
+                            saveSecret(name);
 
 
-                        Thread thread = new Thread() {
-                            public void run() {
-                                try {
-                                    sleep(1200);
+                            Thread thread = new Thread() {
+                                public void run() {
+                                    try {
+                                        sleep(1200);
+                                        finish();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    pD.dismiss();
+                                    Intent intent = new Intent();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("Name", name);
+                                    intent.putExtras(bundle);
+                                    sendBroadcast(intent);
                                     finish();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-                                pD.dismiss();
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("Name", name);
-                                intent.putExtras(bundle);
-                                sendBroadcast(intent);
-                                finish();
-                            }
-                        };
-                        thread.start();
-                        pD.setCancelable(true);
+                            };
+                            thread.start();
+                            pD.setCancelable(true);
 
-                    }
-                });
-                dialog.show();
-
-
+                        }
+                    });
+                    dialog.show();
+                }else{
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(PostPage.this);
+                    dialog.setTitle("Secret");
+                    dialog.setMessage("Please choose your secret's background");
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
 
             }
         });
@@ -166,6 +205,7 @@ public class PostPage extends AppCompatActivity{
         btn_post = (Button) findViewById(R.id.post_secret);
         btn_home =(Button)findViewById(R.id.return_home);
         btn_me = (Button)findViewById(R.id.return_me);
+        RadioGroup_bg = (RadioGroup)findViewById(R.id.post_radioGp_background);
     }
 
 
@@ -216,6 +256,7 @@ public class PostPage extends AppCompatActivity{
         values.put("secretid",number);
         values.put("username",userName);
         values.put("content",content);
+        values.put("background", background);
         dbWrite.insert("SECRET",null,values);
 
     }

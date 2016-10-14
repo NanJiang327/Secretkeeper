@@ -2,17 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edit_secret"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="49dp"
-        android:hint="Please enter your secret"
-        android:inputType="text|textMultiLine"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:id="@+id/post_secret"
         android:layout_below="@+id/edit_secret"
@@ -51,6 +40,68 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="25dp"
         android:layout_marginEnd="25dp" />
+
+    <EditText
+        android:id="@+id/edit_secret"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="53dp"
+        android:hint="Please enter your secret"
+        android:inputType="text|textMultiLine"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/post_radioGp_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignBottom="@+id/edit_secret"
+        android:layout_toRightOf="@+id/edit_secret"
+        android:layout_toEndOf="@+id/edit_secret">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_radio_btn_nature"
+            android:text="Nature" />
+
+        <RadioButton
+            android:text="StarWar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_radio_btn_starwar" />
+
+        <RadioButton
+            android:text="Dog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_radio_btn_dog" />
+
+        <RadioButton
+            android:text="Wave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_radio_btn_wave" />
+
+        <RadioButton
+            android:text="Barries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_radio_btn_brries" />
+
+    </RadioGroup>
+
+    <TextView
+        android:text="Choose your secret background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:layout_above="@+id/post_radioGp_background"
+        android:layout_toEndOf="@+id/edit_secret"
+        android:layout_toRightOf="@+id/edit_secret" />
 
 
 </RelativeLayout>
