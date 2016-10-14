@@ -6,56 +6,14 @@
     android:weightSum="1">
 
     <RelativeLayout
-        android:id="@+id/my_bot"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="#00000000"
-            android:src="@drawable/add"
-            android:id="@+id/btn_me_plus"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:id="@+id/me"
-            android:layout_width="101dp"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Me"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/btn_me_plus"
-            android:layout_toEndOf="@+id/btn_me_plus"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="25dp" />
-
-        <Button
-            android:id="@+id/home"
-            android:layout_width="101dp"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Home"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/btn_me_plus"
-            android:layout_toStartOf="@+id/btn_me_plus"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="25dp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/home_above"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/my_bot">
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/home_mid"
@@ -145,6 +103,49 @@
 
         </RelativeLayout>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_bot"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:src="@drawable/add"
+            android:id="@+id/btn_me_plus"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/me"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Me"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_me_plus"
+            android:layout_toEndOf="@+id/btn_me_plus"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="25dp" />
+
+        <Button
+            android:id="@+id/home"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Home"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btn_me_plus"
+            android:layout_toStartOf="@+id/btn_me_plus"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="25dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

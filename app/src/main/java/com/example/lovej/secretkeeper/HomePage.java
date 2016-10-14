@@ -25,7 +25,7 @@ import android.widget.Toast;
  */
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
-    private Button btn_home, btn_me;
+    private Button btn_home, btn_me, btn_game;
     private ImageButton btn_newSec;
     private LinearLayout homeSecret;
     private EditText search;
@@ -71,12 +71,24 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btn_game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage.this, ArcadeGameActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", name);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
         secrets = (ScrollView) findViewById(R.id.home_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
         btn_newSec = (ImageButton) findViewById(R.id.btn_me_plus);
+        btn_game = (Button)findViewById(R.id.home_btn_Arcade);
         btn_home = (Button) findViewById(R.id.home);
         btn_me = (Button) findViewById(R.id.me);
         homeSecret = (LinearLayout) findViewById(R.id.home_scorllV);

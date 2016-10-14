@@ -9,6 +9,7 @@
         android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:background="#ffffff"
+        android:visibility="invisible"
         android:padding="10dp" >
     </com.example.lovej.secretkeeper.Game2048GridLayout>
 
@@ -30,5 +31,13 @@
             android:textSize="30sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <Button
+        android:text="Play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/game_btn_start"
+        android:layout_below="@+id/game"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

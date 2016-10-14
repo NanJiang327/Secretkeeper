@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by lovej on 2016/9/1 0001.
  */
 public class DataBase extends SQLiteOpenHelper {
-    private static String name = "user2.db";
-    private static int dbVersion = 2;
+    private static String name = "user3.db";
+    private static int dbVersion = 3;
 
     public DataBase(Context context){
         super(context,name,null,dbVersion);
@@ -20,7 +20,7 @@ public class DataBase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table user(username varchar(20) primary key,password varchar(20),email varchar(30),gender varchar(5))";
         String setUpDBForSecret = "create table SECRET(secretid number(5) primary key, username varchar(20), content varchar(300))";
-        String setUpDBForCoin = "create table COIN(username varchar(20), coin number(5))";
+        String setUpDBForCoin = "create table COIN(username varchar(20) primary key, coin number(5))";
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.execSQL(setUpDBForCoin);
         sqLiteDatabase.execSQL(setUpDBForSecret);
