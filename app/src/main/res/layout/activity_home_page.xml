@@ -76,6 +76,7 @@
 
                 <TextView
                     android:id="@+id/first_home_textview"
+                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="77dp"
                     android:lineSpacingExtra ="8dp"

@@ -1,7 +1,6 @@
 package com.example.lovej.secretkeeper;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,7 +30,7 @@ public class HomePage extends AppCompatActivity {
     private LinearLayout homeSecret;
     private EditText search;
     private String bg;
-    private TextView child;
+    private TextView first, child;
     private String name;
     private DataBase db;
     private int lastid;
@@ -85,6 +84,18 @@ public class HomePage extends AppCompatActivity {
             }
         });
         btn_game.getBackground().setAlpha(200);
+
+        first.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(HomePage.this, SecretDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("secretID", 10000);
+                bundle.putString("secret", "This is first secret for test");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
@@ -97,7 +108,7 @@ public class HomePage extends AppCompatActivity {
         homeSecret = (LinearLayout) findViewById(R.id.home_scorllV);
         db = new DataBase(HomePage.this);
         search = (EditText) findViewById(R.id.searchText);
-
+        first = (TextView) findViewById(R.id.first_home_textview);
     }
 
     private void addSecret(int id, String content, String background) {
