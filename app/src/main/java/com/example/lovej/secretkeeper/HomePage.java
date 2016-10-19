@@ -1,6 +1,7 @@
 package com.example.lovej.secretkeeper;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,14 +27,17 @@ import android.widget.Toast;
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
     private Button btn_home, btn_me, btn_game;
-    private ImageButton btn_newSec;
+    private ImageButton btn_newSec,btn_search;
     private LinearLayout homeSecret;
     private EditText search;
     private String bg;
     private TextView first, child;
-    private String name;
+    private String name,content,background;
     private DataBase db;
-    private int lastid;
+    private int lastid,id,numOfSecret = 0,coins;
+    private boolean found;
+    private float y1 = 0,y2 = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,15 +89,71 @@ public class HomePage extends AppCompatActivity {
         });
         btn_game.getBackground().setAlpha(200);
 
-        first.setOnClickListener(new View.OnClickListener() {
+        btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomePage.this, SecretDetail.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("secretID", 10000);
-                bundle.putString("secret", "This is first secret for test");
-                intent.putExtras(bundle);
-                startActivity(intent);
+            public void onClick(View view) {
+                String secrets = search.getText().toString();
+                if(secrets.length()<5){
+                    Toast.makeText(HomePage.this, "The ID of secret is five digits.", Toast.LENGTH_SHORT).show();
+                    search.setText("");
+                }else{
+                    int searchId = Integer.parseInt(secrets);
+                    SQLiteDatabase dbRead = db.getReadableDatabase();
+                    final Cursor cursor = dbRead.query("SECRET",null,null,null,null,null,null);
+                    Cursor cursor2 =dbRead.query("COIN",null,null,null,null,null,null);
+                    while (cursor2.moveToNext()){
+                        String nameInDb = cursor2.getString(cursor2.getColumnIndex("username"));
+                        coins = cursor2.getInt(cursor2.getColumnIndex("coin"));
+                        if(name.equals(nameInDb)){
+                            break;
+                        }
+                    }
+                    while(cursor.moveToNext()){
+                        final int IDInDb = cursor.getInt(cursor.getColumnIndex("secretid"));
+                        final String secretDetails = cursor.getString(cursor.getColumnIndex("content"));
+                        final String bg = cursor.getString(cursor.getColumnIndex("background"));
+                        if(searchId == IDInDb){
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(HomePage.this);
+                            final Intent intent = new Intent(HomePage.this, SecretDetail.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("secret", secretDetails);
+                            bundle.putInt("secretID", IDInDb);
+                            bundle.putString("name", name);
+                            bundle.putString("bg", bg);
+                            intent.putExtras(bundle);
+                            dialog.setTitle("Secret");
+                            dialog.setMessage("Secret found! Click OK to view the details, it will takes your 1 coin.");
+                            dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if(coins < 1){
+                                        Toast.makeText(HomePage.this, "You don't have any coins yet, play the game to get coins", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        coins--;
+                                        SQLiteDatabase dbWrite = db.getWritableDatabase();
+                                        ContentValues values = new ContentValues();
+                                        values.put("coin",coins);
+                                        String condition = "username=?";
+                                        String[] whereArgs = {name};
+                                        dbWrite.update("COIN", values, condition, whereArgs);
+                                        startActivity(intent);
+                                    }
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            dialog.show();
+                            found = true;
+                            break;
+                        }else{
+                            found = false;
+                        }
+                    }
+                    cursor.close();
+                    search.setText("");
+                    if(!found){
+                        Toast.makeText(HomePage.this, "This ID does not exist.", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
@@ -102,6 +162,7 @@ public class HomePage extends AppCompatActivity {
         secrets = (ScrollView) findViewById(R.id.home_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
         btn_newSec = (ImageButton) findViewById(R.id.btn_me_plus);
+        btn_search = (ImageButton) findViewById(R.id.home_btn_search);
         btn_game = (Button)findViewById(R.id.home_btn_Arcade);
         btn_home = (Button) findViewById(R.id.home);
         btn_me = (Button) findViewById(R.id.me);
@@ -114,7 +175,7 @@ public class HomePage extends AppCompatActivity {
     private void addSecret(int id, String content, String background) {
         bg = background;
         child = new TextView(HomePage.this);
-        child.setHeight(findViewById(R.id.first_home_textview).getHeight());
+        child.setHeight(77);
         child.setText("Secret Id: "+id+"  \nSecret: "+content+"");
         child.setId(id);
         child.setTextSize(20);
@@ -140,15 +201,13 @@ public class HomePage extends AppCompatActivity {
         child.getBackground().setAlpha(180);
         child.setTextColor(Color.BLACK);
         homeSecret.addView(child);
-        //this function does not work
+        homeSecret.removeView(first);
+        numOfSecret += 1;
+
     }
 
     private void loadLatestSecret(){
-        String content,background;
-        int id;
-        Toast.makeText(HomePage.this, "Loading secrets", Toast.LENGTH_SHORT).show();
         SQLiteDatabase dbRead = db.getReadableDatabase();
-        String[] SecInfo = {"secretid","content"};
         Cursor cursor = dbRead.query("SECRET",null,null,null,null,null,null);
         int total = cursor.getCount();
 
@@ -157,8 +216,17 @@ public class HomePage extends AppCompatActivity {
                 content = cursor.getString(cursor.getColumnIndex("content"));
                 id = cursor.getInt(cursor.getColumnIndex("secretid"));
                 background = cursor.getString(cursor.getColumnIndex("background"));
-                if (id != lastid) {
-                    addSecret(id, content, background);
+                if (numOfSecret < total) {
+                    if(!(total - numOfSecret ==1)){
+                        addSecret(id, content, background);
+                    }else{
+                         cursor.moveToLast();
+                         content = cursor.getString(cursor.getColumnIndex("content"));
+                         id = cursor.getInt(cursor.getColumnIndex("secretid"));
+                         background = cursor.getString(cursor.getColumnIndex("background"));
+                        addSecret(id, content, background);
+                    }
+
                 } else {
                     Toast.makeText(HomePage.this, "No new secret", Toast.LENGTH_SHORT).show();
                     break;
@@ -199,19 +267,23 @@ public class HomePage extends AppCompatActivity {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
+                    y1 = motionEvent.getY();
                     int scrollY = view.getScrollY();
                     int height = view.getHeight();
                     int scrollViewMeasuredHeight = secrets.getChildAt(0).getMeasuredHeight();
-//                    if (scrollY== 0) {
-//                        Toast.makeText(HomePage.this, "Top", Toast.LENGTH_SHORT).show();
-//                    }
-                    if ((scrollY + height) == scrollViewMeasuredHeight) {
-                        //Toast.makeText(HomePage.this, "bot", Toast.LENGTH_SHORT).show();
-                        loadLatestSecret();
+                    if (scrollY== 0) {
+
                     }
+                    if ((scrollY + height-view.getPaddingTop()-view.getPaddingBottom()) == scrollViewMeasuredHeight) {
+                        //Toast.makeText(HomePage.this, "bot", Toast.LENGTH_SHORT).show();
+                        if(y2 - y1 < 0) {
+                            loadLatestSecret();
+
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    y2 = motionEvent.getY();
                     break;
 
                 default:

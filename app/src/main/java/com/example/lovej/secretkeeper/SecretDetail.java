@@ -1,6 +1,7 @@
 package com.example.lovej.secretkeeper;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -8,9 +9,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,22 +23,25 @@ import android.widget.Toast;
  */
 
 public class SecretDetail extends AppCompatActivity {
-    Bundle bundle;
-    String secret;
-    int secretID, lastorder;
+    private Bundle bundle;
+    private String secret,name,bg,commenter;
+    private int secretID, lastorder;
     private LinearLayout secretMid;
+    private ScrollView scrollView;
     private Button send;
     private EditText commentText;
     private DataBase db;
-    private TextView secretContent, child;
+    private TextView secretContent,first,child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bundle = this.getIntent().getExtras();
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_secretdetail_page);
         init();
+        readAllC();
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,76 +53,106 @@ public class SecretDetail extends AppCompatActivity {
     private void init() {
         secret = bundle.getString("secret");
         secretID = bundle.getInt("secretID");
-        System.out.println(secret);
-        System.out.println(secretID);
+        name = bundle.getString("name");
+        bg = bundle.getString("bg");
         commentText = (EditText) findViewById(R.id.commentText);
+        scrollView = (ScrollView) findViewById(R.id.secretMid);
         secretMid = (LinearLayout) findViewById(R.id.secret_scorllV);
         send = (Button) findViewById(R.id.secretSend);
         db = new DataBase(SecretDetail.this);
         secretContent = (TextView) findViewById(R.id.secretContent);
-        System.out.println(secretContent);
-        System.out.println(commentText);
-        System.out.println(secretMid);
-        System.out.println(send);
         secretContent.setText(secret);
-        secretContent.setHeight(secretContent.getLineHeight() * secretContent.getLineCount());
         secretContent.setTextSize(20);
         secretContent.setTextColor(Color.BLACK);
+        switch (bg) {
+            case "dog":
+                secretContent.setBackgroundResource(R.drawable.dog);
+                break;
+            case "nature":
+                secretContent.setBackgroundResource(R.drawable.nature);
+                break;
+            case "wave":
+                secretContent.setBackgroundResource(R.drawable.wave);
+                break;
+            case "Barries":
+                secretContent.setBackgroundResource(R.drawable.barries);
+                break;
+            case "star":
+                secretContent.setBackgroundResource(R.drawable.starwar);
+                break;
+            default:
+                break;
+        }
+        secretContent.getBackground().setAlpha(180);
     }
 
     private void readAllC() {
         String content;
         int order;
-
-        Toast.makeText(SecretDetail.this, "Loading comment", Toast.LENGTH_SHORT).show();
         SQLiteDatabase dbRead = db.getReadableDatabase();
-        String[] SecInfo = {"secretid", "commentorder", "comment"};
-        Cursor cursor = dbRead.query("COMMENT", new String[]{"secretid，commentorder,comment"}, "secretid=?", new String[]{"secretID"}, null, "commentorder ASC", null);
-        Toast.makeText(SecretDetail.this, "database query", Toast.LENGTH_SHORT).show();
+        Cursor cursor = dbRead.query("COMMENT", null,null,null,null,null,null);
         int total = cursor.getCount();
-
-        if (total > 0) {
+        if(total>0){
             while (cursor.moveToNext()) {
                 content = cursor.getString(cursor.getColumnIndex("comment"));
                 order = cursor.getInt(cursor.getColumnIndex("commentorder"));
+                commenter = cursor.getString(cursor.getColumnIndex("commenter"));
                 lastorder = order;
                 child = new TextView(SecretDetail.this);
-                child.setText(content);
+                child.setText("" + commenter + ": " + content);
                 child.setId(order);
-                child.setHeight(child.getLineHeight() * child.getLineCount());
-                child.setTextSize(20);
+                child.setHeight(200);
+                child.setTextSize(15);
                 child.setTextColor(Color.BLACK);
                 secretMid.addView(child);
+
             }
 
-        } else {
+        }else {
             Toast.makeText(SecretDetail.this, "No comment yet", Toast.LENGTH_SHORT).show();
         }
+        secretMid.removeView(first);
         cursor.close();
+    }
+    private void readLastComment(){
+        String content;
+        int order;
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+        Cursor cursor = dbRead.query("COMMENT", null,null,null,null,null,null);
+        cursor.moveToLast();
+        content = cursor.getString(cursor.getColumnIndex("comment"));
+        order = cursor.getInt(cursor.getColumnIndex("commentorder"));
+        commenter = cursor.getString(cursor.getColumnIndex("commenter"));
+        lastorder = order;
+        child = new TextView(SecretDetail.this);
+        child.setText("" + commenter + ": " + content);
+        child.setId(order);
+        child.setHeight((secretContent.getHeight()/2));
+        child.setTextSize(15);
+        child.setTextColor(Color.BLACK);
+        secretMid.addView(child);
+
     }
 
 
     private void postComment() {
         String comment = commentText.getText().toString();
-        String check = comment.replaceAll(" ", "");
-        if (check.equals(null) || check.equals("") || check.length() == 0 || check.isEmpty()) {
-            Toast.makeText(SecretDetail.this, "The comment is empty", Toast.LENGTH_SHORT).show();
+        if (commentText.getText().toString().length()<1) {
+            Toast.makeText(SecretDetail.this, "You need to say something.", Toast.LENGTH_SHORT).show();
         } else {
             SQLiteDatabase dbWrite = db.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("secretid", secretID);
             values.put("commentorder", lastorder + 1);
+            values.put("commenter", name);
             lastorder++;
             values.put("comment", comment);
             dbWrite.insert("COMMENT", null, values);
             Toast.makeText(SecretDetail.this, "Posted", Toast.LENGTH_SHORT).show();
-            child = new TextView(SecretDetail.this);
-            child.setText(comment);
-            child.setId(lastorder);
-            child.setHeight(child.getLineHeight() * child.getLineCount());
-            child.setTextSize(20);
-            child.setTextColor(Color.BLACK);
-            secretMid.addView(child);
+            commentText.setText("");
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(commentText.getWindowToken(), 0) ;
+            readLastComment();
         }
     }
 

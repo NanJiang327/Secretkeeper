@@ -22,6 +22,7 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
 
     private TextView scoreView;
     private Button play;
+    private boolean found;
     private String name,nameCheck;
     private int flags,coinCheck;
     Game2048GridLayout game2048Layout;
@@ -45,6 +46,7 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
         game2048Layout = (Game2048GridLayout) findViewById(R.id.game);
         game2048Layout.setOnGame2048Listener(this);
         scoreView = (TextView) findViewById(R.id.score);
+        reward();
     }
 
     @Override
@@ -61,7 +63,7 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                reward(name);
+                reward();
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("Name", name);
@@ -73,19 +75,23 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
         }).show();
     }
 
-    public void reward(String userName) {
+    public void reward() {
         SQLiteDatabase dbWrite = db.getWritableDatabase();
         String SQL = "select * from COIN";
         Cursor cursor = dbWrite.rawQuery(SQL, null);
         while(cursor.moveToNext()){
             nameCheck = cursor.getString(0);
             coinCheck = cursor.getInt(1);
-            if (userName.equals(nameCheck)) {
+            if (name.equals(nameCheck)) {
                 flags = 0;
+                found = true;
                 break;
             }else{
-                flags = 1;
+                found = false;
             }
+        }
+        if(!found){
+            flags = 1;
         }
         switch (flags) {
             case 0:
@@ -94,13 +100,14 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
                 ContentValues values = new ContentValues();
                 values.put("coin", userCoins);
                 String condition = "username=?";
-                String[] whereArgs = {userName};
+                String[] whereArgs = {name};
                 dbWrite.update("COIN", values, condition, whereArgs);
                 break;
             case 1:
                 ContentValues cv = new ContentValues();
-                cv.put("username", userName);
-                cv.put("coin", reward);
+                cv.put("username", name);
+                //Every new user will got 10 coins once they are registered
+                cv.put("coin", 10);
                 dbWrite.insert("COIN",null,cv);
                 break;
             default:

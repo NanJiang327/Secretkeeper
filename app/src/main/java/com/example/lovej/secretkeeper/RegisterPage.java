@@ -330,16 +330,19 @@ public class RegisterPage extends AppCompatActivity {
                 Username.setText("");
                 Username.requestFocus();
                 isExist = true;
+                dialogForDb.show();
                 break;
             case 2:
-                dialogForDb.setMessage("Email address " + Email.getText().toString() + " already existed, try another one!");
+                AlertDialog.Builder dialogForDb2 = new AlertDialog.Builder(RegisterPage.this);
+                dialogForDb2.setMessage("Email address " + Email.getText().toString() + " already existed, try another one!");
                 //Button
-                dialogForDb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                dialogForDb2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
+                dialogForDb2.show();
                 Email.setText("");
                 Email.requestFocus();
                 isExist = true;
@@ -348,7 +351,6 @@ public class RegisterPage extends AppCompatActivity {
                 break;
         }
         dbWrite.close();
-        dialogForDb.show();
     }
 
     @Override

@@ -21,7 +21,7 @@ public class DataBase extends SQLiteOpenHelper {
         String sql = "create table user(username varchar(20) primary key,password varchar(20),email varchar(30),gender varchar(5))";
         String setUpDBForSecret = "create table SECRET(secretid number(5) primary key, username varchar(20), content varchar(300), background varchar(20))";
         String setUpDBForCoin = "create table COIN(username varchar(20) primary key, coin number(5))";
-        String setComment = "create table COMMENT(secretid number(5) primary key, commentorder number(3), comment varchar(200))";
+        String setComment = "create table COMMENT(secretid number(5), commentorder number(3), comment varchar(200), commenter varchar(20))";
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.execSQL(setUpDBForCoin);
         sqLiteDatabase.execSQL(setUpDBForSecret);

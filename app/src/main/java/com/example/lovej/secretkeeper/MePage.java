@@ -1,6 +1,9 @@
 package com.example.lovej.secretkeeper;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -64,11 +67,11 @@ public class MePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        getMySecrets();
     }
 
     private void init() {
         secrets = (ScrollView) findViewById(R.id.me_mid);
-        secrets.setOnTouchListener(new TouchListenerImpl());
         btn_newSec = (ImageButton) findViewById(R.id.btn_me_plus);
         btn_home = (Button) findViewById(R.id.btn_me_home);
         btn_me = (Button) findViewById(R.id.btn_me_me);
@@ -76,39 +79,51 @@ public class MePage extends AppCompatActivity {
         db = new DataBase(MePage.this);
     }
 
-    private void addSecret() {
-        child = new TextView(MePage.this);
-        child.setHeight(findViewById(R.id.textView).getHeight());
-        child.setText("Go Go Go");
-        mySecrets.addView(child);
-        //this function does not work
-    }
-
-    private class TouchListenerImpl implements OnTouchListener {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    int scrollY = view.getScrollY();
-                    int height = view.getHeight();
-                    int scrollViewMeasuredHeight = secrets.getChildAt(0).getMeasuredHeight();
-                    if (scrollY == 0) {
-                        Toast.makeText(MePage.this, "Top", Toast.LENGTH_SHORT).show();
+    private void getMySecrets(){
+        String mysecret,namecheck,bg;
+        int mysecretID;
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+        Cursor cursor = dbRead.query("SECRET", null,null,null,null,null,null);
+        int total = cursor.getCount();
+        if(total>0){
+            while (cursor.moveToNext()) {
+                namecheck = cursor.getString(cursor.getColumnIndex("username"));
+                mysecret = cursor.getString(cursor.getColumnIndex("content"));
+                mysecretID = cursor.getInt(cursor.getColumnIndex("secretid"));
+                bg = cursor.getString(cursor.getColumnIndex("background"));
+                if(name.equals(namecheck)) {
+                    child = new TextView(MePage.this);
+                    child.setText("" + mysecretID + " \n " + mysecret + "");
+                    child.setHeight(250);
+                    child.setTextSize(15);
+                    child.setTextColor(Color.BLACK);
+                    switch (bg) {
+                        case "dog":
+                            child.setBackgroundResource(R.drawable.dog);
+                            break;
+                        case "nature":
+                            child.setBackgroundResource(R.drawable.nature);
+                            break;
+                        case "wave":
+                            child.setBackgroundResource(R.drawable.wave);
+                            break;
+                        case "Barries":
+                            child.setBackgroundResource(R.drawable.barries);
+                            break;
+                        case "star":
+                            child.setBackgroundResource(R.drawable.starwar);
+                            break;
+                        default:
+                            break;
                     }
-                    if ((scrollY + height) == scrollViewMeasuredHeight) {
-                        Toast.makeText(MePage.this, "bot", Toast.LENGTH_SHORT).show();
-                        addSecret();
-                    }
-                    break;
-
-                default:
-                    break;
+                    child.getBackground().setAlpha(180);
+                    mySecrets.addView(child);
+                }
             }
-            return false;
+
         }
+        cursor.close();
 
     }
+
 }

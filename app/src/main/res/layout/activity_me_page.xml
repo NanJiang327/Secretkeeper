@@ -5,73 +5,6 @@
     android:weightSum="1">
 
     <RelativeLayout
-        android:id="@+id/my_above"
-        android:layout_above="@+id/my_bot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:id="@+id/my_top"
-            android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <TextView
-                android:id="@+id/my_banner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="View my posted secret:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-
-        </LinearLayout>
-
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/me_mid"
-            android:layout_below="@+id/my_top"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical">
-
-            <LinearLayout
-                android:id="@+id/my_scorllV"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="180dp"
-                    android:text="default_message" />
-
-            </LinearLayout>
-        </ScrollView>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/my_bot"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -113,5 +46,42 @@
             android:layout_marginRight="10dp"
             android:layout_marginEnd="25dp"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_above"
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:layout_below="@+id/my_banner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="400dp">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/me_mid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:id="@+id/my_scorllV"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/my_banner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="My posted secret:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

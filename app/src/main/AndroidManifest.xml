@@ -24,9 +24,6 @@
         <activity android:name=".PostPage">
 
         </activity>
-        <activity android:name=".EditPage">
-
-        </activity>
         <activity android:name=".MePage">
 
         </activity>

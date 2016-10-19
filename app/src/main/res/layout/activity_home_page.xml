@@ -76,7 +76,6 @@
 
                 <TextView
                     android:id="@+id/first_home_textview"
-                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="77dp"
                     android:lineSpacingExtra ="8dp"
@@ -101,20 +100,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-            <EditText
-                android:id="@+id/searchText"
-                android:layout_width="180dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="#00000000"
-                android:ems="10"
-                android:hint="Enter secret ID"
-                android:inputType="number"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/home_Search">
-                <!--android:background="@drawable/searchbg"-->
-            </EditText>
-
             <Button
                 android:text="Arcade game"
                 android:layout_width="75dp"
@@ -127,7 +112,7 @@
                 android:layout_alignParentEnd="true" />
 
             <ImageButton
-                android:id="@+id/searchButton"
+                android:id="@+id/home_btn_search"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/search"
@@ -148,6 +133,22 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true" />
+
+            <EditText
+                android:id="@+id/searchText"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:ems="10"
+                android:maxLength="5"
+                android:hint="Enter secret ID"
+                android:inputType="number"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/home_Search"
+                android:layout_toEndOf="@+id/home_Search">
+                <!--android:background="@drawable/searchbg"-->
+            </EditText>
 
 
         </RelativeLayout>
