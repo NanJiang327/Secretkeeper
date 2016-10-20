@@ -4,7 +4,7 @@ This is a fantanstic app we developed in AUT's Software Development Practice cou
 The app is used for people to store their secret. The interesting feature is that people can also exchange their secret and view other people's secret anonymously by searching the secret ID. Also there are some little game inside to let the customer play to unlock other people's secret.
 
 ##Team
-### [1. Team member]
+### 1. Team member
 * Tao Li (Scrum Master, developer)
 * Harry Zhu (Product Owner, developer)
 * Nan Jiang (Main developer)
@@ -17,13 +17,13 @@ In the developing process we use trello as our Scrum board also the project mana
 <br>
 <img src="AgileBoard.png" width="800">
 
-### [3. Development Evironment]
+### 3. Development Evironment
 * Android Studio as IDE
 * Genymotion as Android Emulation
 * SDK 21
 * Language: Java
 
-### [4. Method and tools]
+### 4. Method and tools
 * Agile
 * INVEST
 * DEEP
@@ -40,6 +40,6 @@ In the developing process we use trello as our Scrum board also the project mana
 [![ScreenShot](sprint1.png)](https://www.youtube.com/watch?v=8SRWN1mqAus)
 
 ##Sprint 2 (Final deliverable - App Showcase)
-### [1. Final product app demonstration]
-
+### 1. Login Page
+<img src="IMG_0883.jpg" width="500">
 
