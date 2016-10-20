@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 /**
  * Created by FD-GHOST on 2016/10/10.
+ * Description: This class is for the Secret detail Page
  */
 
 public class SecretDetail extends AppCompatActivity {
@@ -33,6 +34,11 @@ public class SecretDetail extends AppCompatActivity {
     private DataBase db;
     private TextView secretContent,first,child;
 
+    /**
+     * Description: <This function will be execute when this class have been called, which is initialize the components>
+     *
+     * @param savedInstanceState The Bundle from previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bundle = this.getIntent().getExtras();
@@ -50,6 +56,9 @@ public class SecretDetail extends AppCompatActivity {
         });
     }
 
+    /**
+     * Description: <This function is initialize related page xml file to be editable by the code>
+     */
     private void init() {
         secret = bundle.getString("secret");
         secretID = bundle.getInt("secretID");
@@ -86,6 +95,10 @@ public class SecretDetail extends AppCompatActivity {
         secretContent.getBackground().setAlpha(180);
     }
 
+
+    /**
+     * Description: <This function is to read all the comment with this secret, and create new components to add to the comment list, will notify if no comment>
+     */
     private void readAllC() {
         String content;
         int order;
@@ -114,6 +127,10 @@ public class SecretDetail extends AppCompatActivity {
         secretMid.removeView(first);
         cursor.close();
     }
+
+    /**
+     * @description: <This function will be called if the user slide down to the bottom, it will refresh new comment>
+     */
     private void readLastComment(){
         String content;
         int order;
@@ -134,7 +151,9 @@ public class SecretDetail extends AppCompatActivity {
 
     }
 
-
+    /**
+     * @description: <This function will take the string from input field, and check if it is valid to be posted, if yes, it will connect to database, and update this comment to this secret >
+     */
     private void postComment() {
         String comment = commentText.getText().toString();
         if (commentText.getText().toString().length()<1) {

@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by lovej/FD-GHOST on 2016/8/21 0021.
+ * Description: This class is for the Register Page
  */
 public class RegisterPage extends AppCompatActivity {
     RadioGroup RadioGroup_gender;
@@ -33,7 +34,11 @@ public class RegisterPage extends AppCompatActivity {
     private User user;
 
 
-
+    /**
+     * Description: <This function will be execute when this class have been called, which is initialize the components>
+     *
+     * @param savedInstanceState The Bundle from previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +130,9 @@ public class RegisterPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * Description: <This function is initialize related page xml file to be editable by the code>
+     */
     protected void initControl() {
         Username = (EditText) findViewById(R.id.reg_et_username);
         Password = (EditText) findViewById(R.id.reg_et_password);
@@ -137,6 +145,9 @@ public class RegisterPage extends AppCompatActivity {
         Username.requestFocus();
     }
 
+    /**
+     * Description: <This function is to detect the user input, and to notify if anything dose not meet the requirement>
+     */
     protected void errorMsg() {
         boolean Sign1 = Username.getText().length() < 20;
         boolean Sign2 = Username.getText().length() > 4;
@@ -274,6 +285,10 @@ public class RegisterPage extends AppCompatActivity {
 
     }
 
+    /**
+     * @param str The String
+     * Description: <This function is to detect the illegal input>
+     */
     private boolean compileExChar(String str) {
         String limitEx = "[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
         Pattern pattern = Pattern.compile(limitEx);
@@ -285,6 +300,10 @@ public class RegisterPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * @param user The user
+     * Description: <This function is to detect whether the user/email is exist, other wish, update this new user to the database>
+     */
     public void addUser(User user) {
         flags = 0;
         String nameCheck,emailCheck;
@@ -353,6 +372,9 @@ public class RegisterPage extends AppCompatActivity {
         dbWrite.close();
     }
 
+    /**
+     * @description: <This function will detected if the user press back button in Register page, we will ask of the user whether to continue or cancel the registration this app>
+     */
     @Override
     public void onBackPressed(){
         //Creat an alerdialog

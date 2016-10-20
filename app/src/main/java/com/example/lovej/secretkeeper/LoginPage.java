@@ -195,6 +195,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     /**
+     * @param user The user
      * Description: <This function is to connect to database and verify the user-info is same as recorded>
      */
     public void login(User user){
@@ -236,6 +237,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     /**
+     * @param str The String
      * Description: <This function is to detect the illegal input>
      */
     public boolean compileExChar(String str){
@@ -273,6 +275,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     /**
+     * @param username The String of username
      * Description: <This function is to detect if the username's length fits the requirements.>
      */
     public boolean isVaildUserName(String username){
@@ -285,6 +288,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     /**
+     * @param password the password string
      * Description: <This function is to detect if the password fits the requirements.>
      */
     public String checkPassword(String password){
@@ -307,6 +311,8 @@ public class LoginPage extends AppCompatActivity {
     }
 
     /**
+     * @param username The username string
+     * @param password The passward string
      * Description: <This function is to detect if username exist and username match with password.>
      */
     public String checkMatch(String username, String password){

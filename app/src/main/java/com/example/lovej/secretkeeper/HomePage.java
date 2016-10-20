@@ -228,7 +228,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     /**
-     * @description: <This function will be called if the user slide down to the bottom>
+     * @description: <This function will be called if the user slide down to the bottom, it will refresh >
      */
     private void loadLatestSecret(){
         SQLiteDatabase dbRead = db.getReadableDatabase();
