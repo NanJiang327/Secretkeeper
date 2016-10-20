@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by lovej on 2016/10/3 0003.
@@ -29,6 +27,11 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
     private DataBase db;
     private int reward = 0, score, userCoins;
 
+
+    /**
+     * @param savedInstanceState The Bundle from previous activity
+     * @description: <This function will be execute when this class have been called, which is initialize related page xml file to be editable by the code>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +52,18 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
         reward();
     }
 
+    /**
+     * @description: <This function will refresh the score on screen>
+     */
     @Override
     public void onScoreChange(int score) {
         scoreView.setText("Score : "+score);
     }
 
+    /**
+     *
+     * @description: <This function will be execute after the game is finished, and collect the game result back to the previous activity>
+     */
     @Override
     public void onGameOver() {
         score = game2048Layout.getScore();
@@ -75,6 +85,10 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
         }).show();
     }
 
+    /**
+     *
+     * @description: <This function is to update the user info to database according to the game result>
+     */
     public void reward() {
         SQLiteDatabase dbWrite = db.getWritableDatabase();
         String SQL = "select * from COIN";
@@ -116,7 +130,11 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
 
     }
 
-
+    /**
+     *
+     * @description: <This function is the rules for detect reward>
+     * @param   score The int score
+     */
     public void rewardRules(int score){
         if(score < 500){
             reward = 0;
