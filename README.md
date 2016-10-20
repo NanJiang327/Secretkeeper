@@ -40,6 +40,24 @@ In the developing process we use trello as our Scrum board also the project mana
 [![ScreenShot](sprint1.png)](https://www.youtube.com/watch?v=8SRWN1mqAus)
 
 ##Sprint 2 (Final deliverable - App Showcase)
-### 1. Login Page
-<img src="IMG_0883.jpg" width="500">
+### Login Page
+<img src="IMG_0883.jpg" width="300">
+
+### Register Page
+<img src="IMG_0884.jpg" width="300">
+
+### Main Page
+<img src="IMG_0885.jpg" width="300">
+
+### Secret Page
+<img src="IMG_0886.jpg" width="300">
+
+### My Posted Secret Page
+<img src="IMG_0889.jpg" width="300">
+
+### Post Page
+<img src="IMG_0887.jpg" width="300">
+
+### Game Page
+<img src="IMG_0888.jpg" width="300">
 
