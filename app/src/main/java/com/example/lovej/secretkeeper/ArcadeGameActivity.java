@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 /**
  * Created by lovej on 2016/10/3 0003.
+ * description: This is class for the Arcade Game
  */
 
 public class ArcadeGameActivity extends AppCompatActivity implements Game2048GridLayout.OnGame2048Listener {
