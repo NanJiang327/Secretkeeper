@@ -47,17 +47,17 @@ In the developing process we use trello as our Scrum board also the project mana
 <img src="IMG_0884.jpg" width="300">
 
 ### Main Page
-<img src="IMG_0885.jpg" width="300">
+<img src="IMG_0885.JPG" width="300">
 
 ### Secret Page
-<img src="IMG_0886.jpg" width="300">
+<img src="IMG_0886.JPG" width="300">
 
 ### My Posted Secret Page
-<img src="IMG_0889.jpg" width="300">
+<img src="IMG_0889.JPG" width="300">
 
 ### Post Page
 <img src="IMG_0887.jpg" width="300">
 
 ### Game Page
-<img src="IMG_0888.jpg" width="300">
+<img src="IMG_0888.JPG" width="300">
 
