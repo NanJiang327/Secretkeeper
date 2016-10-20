@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 /**
  * Created by FD-GHOST/lovej on 2016/9/01 1450.
+ * Description: This class is for the control of homepage
  */
 public class HomePage extends AppCompatActivity {
     private ScrollView secrets;
@@ -34,10 +35,15 @@ public class HomePage extends AppCompatActivity {
     private TextView first, child;
     private String name,content,background;
     private DataBase db;
-    private int lastid,id,numOfSecret = 0,coins;
+    private int id, numOfSecret = 0, coins;
     private boolean found;
     private float y1 = 0,y2 = 0;
 
+
+    /**
+     * @param savedInstanceState The Bundle from previous activity
+     * @description: <This function will be execute when this class have been called, which is initialize the components>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +95,12 @@ public class HomePage extends AppCompatActivity {
         });
         btn_game.getBackground().setAlpha(200);
 
+
+        /**
+         *
+         * @description: <Here is the that we allow user to entry a secret id, and it cost 1 coin each time,
+         * we have defined that each id has 5 digits, or report if this id dost not exist>
+         */
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +170,9 @@ public class HomePage extends AppCompatActivity {
         });
     }
 
+    /**
+     * @description: <This function is initialize related page xml file to be editable by the code>
+     */
     private void init() {
         secrets = (ScrollView) findViewById(R.id.home_mid);
         secrets.setOnTouchListener(new TouchListenerImpl());
@@ -172,6 +187,12 @@ public class HomePage extends AppCompatActivity {
         first = (TextView) findViewById(R.id.first_home_textview);
     }
 
+    /**
+     * @param id The secret id
+     * @param content The content of Secret
+     * @param background The background image define (String) of this Secret
+     * @description: <This function is to receive the info of a secret to create a new component and add it to home page secret list>
+     */
     private void addSecret(int id, String content, String background) {
         bg = background;
         child = new TextView(HomePage.this);
@@ -206,6 +227,9 @@ public class HomePage extends AppCompatActivity {
 
     }
 
+    /**
+     * @description: <This function will be called if the user slide down to the bottom>
+     */
     private void loadLatestSecret(){
         SQLiteDatabase dbRead = db.getReadableDatabase();
         Cursor cursor = dbRead.query("SECRET",null,null,null,null,null,null);
@@ -238,6 +262,9 @@ public class HomePage extends AppCompatActivity {
         cursor.close();
     }
 
+    /**
+     * @description: <This function will detected if the user press back button in home page, we will ask of the user wants to exit this app>
+     */
     public void onBackPressed(){
         //Creat an alerdialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomePage.this);
@@ -262,6 +289,9 @@ public class HomePage extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * @description: <This is the listener for the Sliding detection. if it has been detected to the bottom, it will try to load newly posted secret>
+     */
     private class TouchListenerImpl implements OnTouchListener {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {

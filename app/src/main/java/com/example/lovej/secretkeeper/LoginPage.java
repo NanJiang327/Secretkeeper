@@ -18,10 +18,13 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by lovej on 2016/8/21 0021.
+ * Description: This class is for the Login Page
+ */
 public class LoginPage extends AppCompatActivity {
     private Button login,register;
     private EditText Username,Password;
@@ -31,6 +34,11 @@ public class LoginPage extends AppCompatActivity {
     private int flags;
     private User user;
 
+    /**
+     * Description: <This function will be execute when this class have been called, which is initialize the components>
+     *
+     * @param savedInstanceState The Bundle from previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,10 @@ public class LoginPage extends AppCompatActivity {
         initControll();
 
         login.getBackground().setAlpha(40);
+
+        /**
+         * Description: <This function is to detect whether or not this user had be allowed to sigh in, and prepare the user info and start home page >
+         */
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -72,7 +84,9 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
-
+        /**
+         * Description: <This function will direct user to register a new account >
+         */
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +96,9 @@ public class LoginPage extends AppCompatActivity {
         });
     }
 
-    //initial
+    /**
+     * Description: <This function is initialize related page xml file to be editable by the code>
+     */
     protected void initControll() {
         login = (Button) findViewById(R.id.login_btn_login);
         register = (Button) findViewById(R.id.login_btn_register);
@@ -92,7 +108,9 @@ public class LoginPage extends AppCompatActivity {
         Username.requestFocus();
     }
 
-    //override the back button
+    /**
+     * Description: <This function will detected if the user press back button in home page, we will ask of the user wants to exit this app>
+     */
     @Override
     public void onBackPressed(){
         //Creat an alerdialog
@@ -118,7 +136,9 @@ public class LoginPage extends AppCompatActivity {
         dialog.show();
     }
 
-    //used to see if the input fits the requirements.
+    /**
+     * Description: <This function is to detect the user input, and to notify if anything dose not meet the requirement>
+     */
     protected boolean errorMsg(){
         checktext = true;
         boolean Sign1 =  Username.getText().length() < 21;
@@ -174,6 +194,9 @@ public class LoginPage extends AppCompatActivity {
         return checktext;
     }
 
+    /**
+     * Description: <This function is to connect to database and verify the user-info is same as recorded>
+     */
     public void login(User user){
         String nameCheck,passwordCheck;
         SQLiteDatabase dbRead = db.getReadableDatabase();
@@ -212,7 +235,9 @@ public class LoginPage extends AppCompatActivity {
         db.close();
     }
 
-    //method used to detect the illegal input
+    /**
+     * Description: <This function is to detect the illegal input>
+     */
     public boolean compileExChar(String str){
         String limitEx="[`~ !#$%^&*()+=|{}':;',\\[\\]<>/?~#%&*—+|{}'\"]";
         Pattern pattern = Pattern.compile(limitEx);
@@ -223,6 +248,9 @@ public class LoginPage extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Description: <This function is unit test>
+     */
     //Virtual database
     public Map checkDb_T(){
         Map<String,String> mockDb = new HashMap<String,String>();
@@ -230,6 +258,10 @@ public class LoginPage extends AppCompatActivity {
         mockDb.put("1sdsad","1");
         return mockDb;
     }
+
+    /**
+     * Description: <This function is for unit test>
+     */
     //to check if use in the right position of the database.
     public String testDb(Map virtualDB) throws Throwable{
         for(Object obj: virtualDB.keySet()){
@@ -239,7 +271,10 @@ public class LoginPage extends AppCompatActivity {
         }
         return "";
     }
-    //to check if the username's length fits the requirements.
+
+    /**
+     * Description: <This function is to detect if the username's length fits the requirements.>
+     */
     public boolean isVaildUserName(String username){
         if(username.length()>4&& username.length() <21){
             return true;
@@ -248,7 +283,10 @@ public class LoginPage extends AppCompatActivity {
         }
 
     }
-    //to check if the password fits the requirements.
+
+    /**
+     * Description: <This function is to detect if the password fits the requirements.>
+     */
     public String checkPassword(String password){
         boolean sign1 = false,sign2 = false;
         for(int i =0;i<password.length();i++){
@@ -267,7 +305,10 @@ public class LoginPage extends AppCompatActivity {
             return password;
         }
     }
-    //to check if username exist and username match with password
+
+    /**
+     * Description: <This function is to detect if username exist and username match with password.>
+     */
     public String checkMatch(String username, String password){
         String loginSatus;
         String usernameInDb = "j499521010", passwordInDb = "123.comJN";

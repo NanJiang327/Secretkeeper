@@ -6,9 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 
 /**
  * Created by FD-GHOST on 2016/9/18 1450.
+ * Description: This class is for the Me Page
  */
 public class MePage extends AppCompatActivity {
     private ScrollView secrets;
@@ -29,6 +28,10 @@ public class MePage extends AppCompatActivity {
     private String name;
     private DataBase db;
 
+    /**
+     * @param savedInstanceState The Bundle from previous activity
+     * @description: <This function will be execute when this class have been called, which is initialize the components>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,9 @@ public class MePage extends AppCompatActivity {
         getMySecrets();
     }
 
+    /**
+     * @description: <This function is initialize related page xml file to be editable by the code>
+     */
     private void init() {
         secrets = (ScrollView) findViewById(R.id.me_mid);
         btn_newSec = (ImageButton) findViewById(R.id.btn_me_plus);
@@ -78,7 +84,9 @@ public class MePage extends AppCompatActivity {
         mySecrets = (LinearLayout) findViewById(R.id.my_scorllV);
         db = new DataBase(MePage.this);
     }
-
+    /**
+     * @description: <This function is to receive the all the secret from database which this user has been posted, create a new component and add it to me page secret list>
+     */
     private void getMySecrets(){
         String mysecret,namecheck,bg;
         int mysecretID;

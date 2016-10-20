@@ -28,6 +28,7 @@ import java.util.Random;
 
 /**
  * Created by Tao Li on 13/09/2016.
+ * Description: This class is for the Post Page
  */
 public class PostPage extends AppCompatActivity{
     RadioGroup RadioGroup_bg;
@@ -38,7 +39,10 @@ public class PostPage extends AppCompatActivity{
     private String name;
     private String background;
 
-
+    /**
+     * @param savedInstanceState The Bundle from previous activity
+     * @description: <This function will be execute when this class have been called, initialize related page xml file to be editable by the code and initialize the components>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +81,9 @@ public class PostPage extends AppCompatActivity{
 
             }
         });
-
+        /**
+         * @description: <This function is to >
+         */
         btn_post.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

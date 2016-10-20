@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 /**
  * Created by lovej on 2016/10/3 0003.
- * description: This is class for the Arcade Game
+ * Description: This class is for the Arcade Game
  */
 
 public class ArcadeGameActivity extends AppCompatActivity implements Game2048GridLayout.OnGame2048Listener {
@@ -63,7 +63,7 @@ public class ArcadeGameActivity extends AppCompatActivity implements Game2048Gri
 
     /**
      *
-     * @description: <This function will be execute after the game is finished, and collect the game result back to the previous activity>
+     * @description: <This function will be execute after the game is finished, show the result of this game, and collect the game result back to the previous activity>
      */
     @Override
     public void onGameOver() {

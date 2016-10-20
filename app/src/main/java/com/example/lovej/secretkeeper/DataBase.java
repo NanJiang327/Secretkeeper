@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by lovej on 2016/9/1 0001.
+ * Description: This class is to setup all the local database, which will be used as remount database
  */
 public class DataBase extends SQLiteOpenHelper {
     private static String name = "user1.db";
@@ -15,7 +16,10 @@ public class DataBase extends SQLiteOpenHelper {
         super(context,name,null,dbVersion);
     }
 
-
+    /**
+     * @param sqLiteDatabase The SQLiteDatabase
+     * @description: <This function will be execute when this class have been called, and create local database if the database is not exist>
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table user(username varchar(20) primary key,password varchar(20),email varchar(30),gender varchar(5))";
@@ -26,32 +30,6 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(setUpDBForCoin);
         sqLiteDatabase.execSQL(setUpDBForSecret);
         sqLiteDatabase.execSQL(setComment);
-        ///Secrets for test///
-//        String secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (1,'ML','Secret N1');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (2'ML','Secret N2');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (3,'ML','Secret N3');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (4,'ML','Secret N4');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (5,'ML','Secret N5');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (6,'ML','Secret N6');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (7,'ML','Secret N7');";
-//        sqLiteDatabase.execSQL(secreststest);
-//        secreststest = " INSERT into SECRET(secretid, username, content)\n" +
-//                "        VALUES (8,'ML','Secret N8');";
-//        sqLiteDatabase.execSQL(secreststest);
-
     }
 
     @Override
