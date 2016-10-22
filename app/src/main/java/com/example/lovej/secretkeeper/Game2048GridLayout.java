@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.GridLayout;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.Random;
 
 /**
  * Created by lovej on 2016/10/3 0003.
+ * Description: This class is for create and control the GridLayout in game 2048
  */
 
 public class Game2048GridLayout extends GridLayout {
@@ -38,14 +38,29 @@ public class Game2048GridLayout extends GridLayout {
         UP, DOWN, LEFT, RIGHT
     }
 
+    /**
+     * @param context The context
+     * @description: <This is constructor for Game2048GridLayout>
+     */
     public Game2048GridLayout(Context context) {
         this(context, null);
     }
 
+    /**
+     * @param context The context context
+     * @param attrs   The attrs AttributeSet
+     * @description: <This is constructor for Game2048GridLayout>
+     */
     public Game2048GridLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
+    /**
+     * @param context The username Context
+     * @param attrs The password AttributeSet
+     * @param defStyleAttr The defStyleAttr Int
+     * @description: <This is constructor for Game2048GridLayout>
+     */
     public Game2048GridLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         padding = Math.min(getPaddingBottom(), getPaddingTop());
@@ -95,6 +110,9 @@ public class Game2048GridLayout extends GridLayout {
         isLayout = true;
     }
 
+    /**
+     * @description: <This function is to generate random number based on game rules>
+     */
     private void generateNum() {
         if (isGameOver()) {
             onGame2048Listener.onGameOver();
@@ -270,6 +288,10 @@ public class Game2048GridLayout extends GridLayout {
         return colIndex;
     }
 
+    /**
+     * @param rowList The List<Game2048Item>
+     * @description: <This function is to merge the same number to one number>
+     */
     private void mergeItem(List<Game2048Item> rowList) {
         if (rowList.size() < 2) {
             return;
@@ -293,7 +315,9 @@ public class Game2048GridLayout extends GridLayout {
         }
     }
 
-
+    /**
+     * @description: <This function is to detect is there any possible that game can still continue to play>
+     */
     private boolean isGameOver() {
 
         if (!isFull()) {
@@ -335,6 +359,9 @@ public class Game2048GridLayout extends GridLayout {
         return true;
     }
 
+    /**
+     * @description: <This function is to detect is the layout been full>
+     */
     public boolean isFull() {
         for (int i = 0; i < childRow; i++) {
             for (int j = 0; j < childRow; j++) {
@@ -357,6 +384,9 @@ public class Game2048GridLayout extends GridLayout {
         this.onGame2048Listener = onGame2048Listener;
     }
 
+    /**
+     * @description: <This function is to allow user to start a new game>
+     */
     public void reStart() {
         for (int i = 0; i < childRow; i++) {
             for (int j = 0; j < childRow; j++) {
@@ -370,6 +400,10 @@ public class Game2048GridLayout extends GridLayout {
         generateNum();
     }
 
+    /**
+     * @return The score Int
+     * @description: <This function is to merge the same number to one number>
+     */
     public int getScore(){
         return score;
     }

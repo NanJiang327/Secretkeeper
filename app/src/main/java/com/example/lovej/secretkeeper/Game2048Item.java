@@ -2,6 +2,7 @@ package com.example.lovej.secretkeeper;
 
 /**
  * Created by lovej on 2016/10/3 0003.
+ * Description: This class is for create and control the items in game 2048
  */
 
 import android.content.Context;
@@ -20,19 +21,38 @@ public class Game2048Item extends View {
     private Rect textRect;
     private String numberValue;
 
+    /**
+     * @param context The context
+     * @description: <This is constructor for Game2048Item>
+     */
     public Game2048Item(Context context) {
         this(context, null);
     }
 
+    /**
+     * @param context The context context
+     * @param attrs   The attrs AttributeSet
+     * @description: <This is constructor for Game2048Item>
+     */
     public Game2048Item(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
+    /**
+     * @param context The username Context
+     * @param attrs The password AttributeSet
+     * @param defStyleAttr The defStyleAttr Int
+     * @description: <This is constructor for Game2048Item>
+     */
     public Game2048Item(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint = new Paint();
     }
 
+    /**
+     * @param number The number
+     * @description: <This function is to set the number to display in a square>
+     */
     public void setNumber(int number) {
         this.number = number;
         numberValue = "" + number;
@@ -42,10 +62,17 @@ public class Game2048Item extends View {
         invalidate();
     }
 
+    /**@return the Int number
+     * @description: <This function is to return the number>
+     */
     public int getNumber() {
         return number;
     }
 
+    /**
+     * @param canvas The Canvas
+     * @description: <This function is to set different color according to the different number>
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

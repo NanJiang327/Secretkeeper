@@ -207,6 +207,9 @@ public class PostPage extends AppCompatActivity{
         db = new DataBase(PostPage.this);
     }
 
+    /**
+     * @description: <This function is to initialize the buttons>
+     */
     public void initalizeBtn(){
         btn_post = (Button) findViewById(R.id.post_secret);
         btn_home =(Button)findViewById(R.id.return_home);
@@ -253,6 +256,10 @@ public class PostPage extends AppCompatActivity{
         return "";
     }
 
+    /**
+     * @param userName The userName String
+     * @description: <This function is to connect to database and save the new secret to the database>
+     */
     public void saveSecret(String userName){
         SQLiteDatabase dbWrite = db.getWritableDatabase();
         int number = new Random().nextInt(99999);
@@ -297,9 +304,12 @@ public class PostPage extends AppCompatActivity{
     }
 
 
-
+    /**
+     * @param number The secret id
+     * @return The secret id number
+     * @description: <This function is to check whether or not his id is been allocated>
+     */
     public static int checkSecretID(int number){
-
         int idCheck;
         boolean flage = true;
         SQLiteDatabase dbRead = db.getReadableDatabase();
@@ -341,6 +351,11 @@ public class PostPage extends AppCompatActivity{
         return number;
     }
 
+    /**
+     * @param id The secret id
+     * @return The secret string from database
+     * @description: <This function is to return the secret with specify id from database>
+     */
     public String getSecretFromDB(int id){
         DataBase db = new DataBase(PostPage.this);
         int idCheck;
@@ -359,12 +374,19 @@ public class PostPage extends AppCompatActivity{
         return "";
     }
 
-
+    /**
+     * @return the secret String
+     * @description: <This function is to return the secret String>
+     */
     public String getSecret(){
-
         return secret.getText().toString();
     }
 
+    /**
+     * @param secretA The secret string
+     * @return the secret String
+     * @description: <This function is to ensure the input can not be empty>
+     */
     public String enterSecret(String secretA){
         String wantedSecret = secretA;
         if("".equals(wantedSecret)){
